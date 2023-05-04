@@ -1,11 +1,12 @@
-import { Background, Foreground } from './Sprite.js';
-import { Player } from './Character.js';
-import { TilesForCollision } from './TileForCollision.js';
+import { Background, Foreground } from './main/Sprite.js';
+import { Player } from './main/Character.js';
+import { TilesForCollision } from './main/TileForCollision.js';
+import { SnakeGame } from './snake/SnakeGame.js';
 
 const canvas = /** @type {HTMLCanvasElement} */ (document.querySelector('#canvas1'));
 const ctx = canvas.getContext('2d');
-canvas.height = 900;
 canvas.width = 1900;
+canvas.height = 900;
 
 class Game {
 	constructor() {
@@ -19,8 +20,10 @@ class Game {
 			gameFps: 60,
 			delta: 0,
 			lastTime: 0,
-			devMode: true,
+			devMode: false,
+			scene: 'snake',
 		};
+		this.snakeGame = new SnakeGame(this);
 		this.tilesForCollision = new TilesForCollision(this);
 		this.background = new Background(this);
 		this.foreground = new Foreground(this);
@@ -34,12 +37,22 @@ class Game {
 	render(ctx, timeStamp) {
 		this.gameSetup.delta = timeStamp - this.gameSetup.lastTime;
 		if (this.gameSetup.delta > 1000 / this.gameSetup.gameFps) {
-			for (const el of this.forDraw) {
-				el.draw(ctx);
+			switch (this.gameSetup.scene) {
+				case 'main':
+					for (const el of this.forDraw) {
+						el.draw(ctx);
+					}
+					this.player.character.characterMoves(timeStamp);
+					break;
+				case 'snake':
+					this.snakeGame.draw(ctx, timeStamp);
+					this.snakeGame.moves(timeStamp);
+					break;
 			}
-			this.player.character.characterMoves(timeStamp);
+
 			this.gameSetup.lastTime = timeStamp;
 		}
+		// console.log(navigator.userAgent);
 	}
 }
 window.addEventListener('load', () => {

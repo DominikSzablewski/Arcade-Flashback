@@ -10,7 +10,8 @@ body {
 #background_1,
 #collision,
 #foreground,
-#player {
+#player,
+#test1 {
 	display: none;
 }
 
@@ -18,5 +19,4 @@ body {
 	height: 100vh;
 	border-left: 2px solid white;
 	border-right: 2px solid white;
-	
 }

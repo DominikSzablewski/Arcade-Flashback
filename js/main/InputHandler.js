@@ -1,8 +1,10 @@
 export class InputHandler {
-	constructor(player) {
-		this.player = player;
+	constructor(receiver) {
+		this.receiver = receiver;
 		this.keyPressTemp = null;
 		this.keyReleaseTemp = null;
+		// this.animationStart = false;
+
 		window.addEventListener('keydown', e => {
 			if (
 				e.key === 'w' ||
@@ -15,20 +17,20 @@ export class InputHandler {
 				e.key === 'D'
 			) {
 				this.keyPressTemp = e.key;
-				this.player.spriteSetup.animationStart = true;
-				this.player.lastKey = e.key;
+				this.animationStart = true;
+				this.receiver.lastKey = e.key;
 			}
 		});
 
 		window.addEventListener('keyup', e => {
 			this.keyReleaseTemp = e.key;
 			if (this.keyPressTemp === this.keyReleaseTemp) {
-				this.player.spriteSetup.animationStart = false;
+				this.animationStart = false;
 			}
 		});
 
 		window.addEventListener('blur', () => {
-			this.player.spriteSetup.animationStart = false;
+			this.animationStart = false;
 		});
 	}
 }
