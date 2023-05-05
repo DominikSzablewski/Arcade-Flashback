@@ -53,18 +53,19 @@ export class SnakeGame {
 	moves(timestamp) {
 		this.snakeFpsSetup.delta = timestamp - this.snakeFpsSetup.lastTime;
 		if (this.snakeFpsSetup.delta > 1000 / this.snakeFpsSetup.snakeFps) {
-			if (this.lastKey === 'w' || this.lastKey === 'w') {
-				this.movement.apply({ x: 0, y: -24 });
+			if (this.lastKey === 'w' || this.lastKey === 'W') {
+				this.movement.apply({ x: 0, y: -24, side: 'up' });
 			}
 			if (this.lastKey === 's' || this.lastKey === 'S') {
-				this.movement.apply({ x: 0, y: 24 });
+				this.movement.apply({ x: 0, y: 24, side: 'down' });
 			}
 			if (this.lastKey === 'a' || this.lastKey === 'A') {
-				this.movement.apply({ x: -24, y: 0 });
+				this.movement.apply({ x: -24, y: 0, side: 'left' });
 			}
 			if (this.lastKey === 'd' || this.lastKey === 'D') {
-				this.movement.apply({ x: 24, y: 0 });
+				this.movement.apply({ x: 24, y: 0, side: 'right' });
 			}
+		
 			this.snakeFpsSetup.lastTime = timestamp;
 		}
 	}

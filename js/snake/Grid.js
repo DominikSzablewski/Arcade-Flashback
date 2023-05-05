@@ -9,6 +9,7 @@ export class Grid {
 			imageHeight: 900,
 			imageResize: 1,
 		};
+		this.devMode = this.snake.game.gameSetup.devMode ? true : false;
 	}
 
 	drawLine({ lineToX, lineToY, moveToX, moveToY }, ctx) {
@@ -52,6 +53,8 @@ export class Grid {
 	}
 
 	draw(ctx) {
-		ctx.drawImage(this.gridSetup.src, this.gridSetup.imageOnCanvasX, this.gridSetup.imageOnCanvasY);
+		if (this.devMode) {
+			ctx.drawImage(this.gridSetup.src, this.gridSetup.imageOnCanvasX, this.gridSetup.imageOnCanvasY);
+		}
 	}
 }

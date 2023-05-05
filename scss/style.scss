@@ -8,10 +8,12 @@ body {
 	background-color: rgb(77, 75, 75);
 }
 #background_1,
-#collision,
 #foreground,
 #player,
-#test1 {
+#snakeBackgroundImage,
+#grid,
+#snakeSprite,
+#appleSprite {
 	display: none;
 }
 

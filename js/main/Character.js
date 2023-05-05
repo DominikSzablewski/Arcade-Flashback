@@ -14,7 +14,9 @@ class Character extends Move {
 				endFrameX,
 				spriteWidth,
 				spriteHeight,
-				widthHeightResize,
+				editSprite: {
+					resize,
+				},
 			},
 			characterSetup = { characterSpeed, characterFps, delta, lastTime },
 			collisionSetup = { offsetX, offsetY, predictCollisionPerPixel, width, height },
@@ -26,8 +28,8 @@ class Character extends Move {
 		this.spriteImage = document.getElementById(this.spriteSetup.src);
 		this.characterSetup = characterSetup;
 		this.characterPosition = {
-			x: this.game.canvas.width / 2 - (this.spriteSetup.spriteWidth * this.spriteSetup.widthHeightResize) / 2,
-			y: this.game.canvas.height / 2 - (this.spriteSetup.spriteHeight * this.spriteSetup.widthHeightResize) / 2,
+			x: this.game.canvas.width / 2 - (this.spriteSetup.spriteWidth * this.spriteSetup.editSprite.resize) / 2,
+			y: this.game.canvas.height / 2 - (this.spriteSetup.spriteHeight * this.spriteSetup.editSprite.resize) / 2,
 		};
 		this.collisionSetup = collisionSetup;
 		this.collisionPosition = {
@@ -47,8 +49,8 @@ class Character extends Move {
 			this.spriteSetup.spriteHeight,
 			this.characterPosition.x,
 			this.characterPosition.y,
-			this.spriteSetup.spriteWidth * this.spriteSetup.widthHeightResize - 15,
-			this.spriteSetup.spriteHeight * this.spriteSetup.widthHeightResize + 10
+			this.spriteSetup.spriteWidth * this.spriteSetup.editSprite.resize - 15,
+			this.spriteSetup.spriteHeight * this.spriteSetup.editSprite.resize + 10
 		);
 		ctx.fillStyle = `rgba(152, 0, 197, ${this.devMode})`;
 		ctx.fillRect(
@@ -73,7 +75,9 @@ export class Player {
 				frameY: 0,
 				spriteWidth: 48,
 				spriteHeight: 72.5,
-				widthHeightResize: 2.4,
+				editSprite: {
+					resize: 2.4,
+				},
 			},
 			characterSetup: { characterSpeed: 13, characterFps: 16, delta: 0, lastTime: 0 },
 			collisionSetup: { offsetX: 8, offsetY: 80, predictCollisionPerPixel: 13, width: 60, height: 50 },
