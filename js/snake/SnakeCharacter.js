@@ -2,10 +2,9 @@ export class SnakeBodyPart {
 	constructor({ position = { x, y }, side }) {
 		this.position = position;
 		this.side = side;
-		this.snakeCollisionSetup = {
+		this.collision = {
 			width: 24,
 			height: 24,
-			color: null,
 		};
 		this.sprite = {
 			src: document.getElementById('snakeSprite'),
@@ -14,13 +13,15 @@ export class SnakeBodyPart {
 			frameX: null,
 			frameY: null,
 		};
-		this.editSprite = {
+		this.edit = {
 			resize: 1.6,
+			offset: 4,
 		};
 		this.bodyPart = {
 			head: false,
 			body: false,
 			tail: false,
+			color: null,
 		};
 	}
 }
@@ -36,30 +37,6 @@ export class SnakeCharacter {
 			}),
 			new SnakeBodyPart({
 				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 7 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 6 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 5 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 4 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 3 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 2 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 1 },
 				side: this.side,
 			}),
 		];
@@ -92,27 +69,27 @@ export class SnakeCharacter {
 
 	interpreter(index, el) {
 		if (index === 0) {
-			el.snakeCollisionSetup.color = `rgba(128, 0, 0, ${this.devMode})`;
 			el.bodyPart = {
 				head: true,
 				tail: false,
 				endOfTail: false,
+				color: `rgba(106, 0, 255, ${this.devMode})`,
 			};
 		}
 		if (index > 0) {
-			el.snakeCollisionSetup.color = `rgba(255, 0, 0, ${this.devMode})`;
 			el.bodyPart = {
 				head: false,
 				tail: true,
 				endOfTail: false,
+				color: `rgba(255, 0, 255, ${this.devMode})`,
 			};
 		}
 		if (index === this.bodyArray.length - 1) {
-			el.snakeCollisionSetup.color = `rgba(255, 99, 71, ${this.devMode})`;
 			el.bodyPart = {
 				head: false,
 				tail: false,
 				endOfTail: true,
+				color: `rgba(255, 0, 50, ${this.devMode})`,
 			};
 		}
 		if (el.bodyPart.head) {
@@ -142,18 +119,18 @@ export class SnakeCharacter {
 	draw(ctx) {
 		for (const [index, el] of this.bodyArray.entries()) {
 			this.interpreter(index, el);
-			ctx.fillStyle = el.snakeCollisionSetup.color;
-			ctx.fillRect(el.position.x, el.position.y, el.snakeCollisionSetup.width, el.snakeCollisionSetup.height);
+			ctx.fillStyle = el.bodyPart.color;
+			ctx.fillRect(el.position.x, el.position.y, el.collision.width, el.collision.height);
 			ctx.drawImage(
 				el.sprite.src,
 				el.sprite.frameX * el.sprite.width,
 				el.sprite.frameY * el.sprite.height,
 				el.sprite.width,
 				el.sprite.height,
-				el.position.x + el.snakeCollisionSetup.width / 2 - (el.sprite.width * el.editSprite.resize) / 2,
-				el.position.y + el.snakeCollisionSetup.height / 2 - (el.sprite.height * el.editSprite.resize) / 2,
-				el.sprite.width * el.editSprite.resize,
-				el.sprite.height * el.editSprite.resize
+				el.position.x + el.collision.width / 2 - (el.sprite.width * el.edit.resize) / 2,
+				el.position.y + el.collision.height / 2 - (el.sprite.height * el.edit.resize) / 2,
+				el.sprite.width * el.edit.resize,
+				el.sprite.height * el.edit.resize
 			);
 		}
 	}

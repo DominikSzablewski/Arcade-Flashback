@@ -5,26 +5,17 @@ export class Grid {
 			src: document.getElementById('grid'),
 			imageOnCanvasX: 0,
 			imageOnCanvasY: 0,
-			imageWidth: 1900,
-			imageHeight: 900,
-			imageResize: 1,
 		};
+
 		this.devMode = this.snake.game.gameSetup.devMode ? true : false;
 	}
 
 	drawLine({ lineToX, lineToY, moveToX, moveToY }, ctx) {
 		ctx.lineWidth = 1;
-		ctx.strokeStyle = 'black';
+		ctx.strokeStyle = 'rgb(44 ,44, 44)';
 		ctx.moveTo(moveToX, moveToY);
 		ctx.lineTo(lineToX, lineToY);
 		ctx.stroke();
-		ctx.fillStyle = 'rgba(255,255,255,0.6)';
-		ctx.fillRect(
-			this.snake.boardSetup.x,
-			this.snake.boardSetup.y,
-			this.snake.boardSetup.width,
-			this.snake.boardSetup.height
-		);
 	}
 
 	drawGridAndSaveAsAnImage(ctx) {

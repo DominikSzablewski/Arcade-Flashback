@@ -8,9 +8,9 @@ export class Move {
 		for (const [index, el] of this.snake.snakeCharacter.bodyArray.entries()) {
 			if (
 				el.position.x < this.snake.boardSetup.x ||
-				el.position.x > this.snake.boardSetup.x + this.snake.boardSetup.width - el.snakeCollisionSetup.width ||
+				el.position.x > this.snake.boardSetup.x + this.snake.boardSetup.width - el.collision.width ||
 				el.position.y < this.snake.boardSetup.y ||
-				el.position.y > this.snake.boardSetup.y + this.snake.boardSetup.height - el.snakeCollisionSetup.height
+				el.position.y > this.snake.boardSetup.y + this.snake.boardSetup.height - el.collision.height
 			) {
 				el.position.x += 0;
 				el.position.y += 0;

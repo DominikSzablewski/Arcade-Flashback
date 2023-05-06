@@ -5,22 +5,24 @@ export class Background {
 			src: document.getElementById('snakeBackgroundImage'),
 			imageOnSourceX: 0,
 			imageOnSourceY: 0,
-			imageWidth: 925,
-			imageHeight: 802,
-			imageResize: 1,
+			imageWidth: 3000,
+			imageHeight: 2000,
+		};
+
+		this.edit = {
+			resize: 0.42,
 		};
 
 		this.backgroundSetUp = {
-			imageOnCanvasX:
-				this.snake.game.canvas.width / 2 - (this.backgroundImageSetup.imageWidth * this.backgroundImageSetup.imageResize) / 2,
+			imageOnCanvasX: this.snake.game.canvas.width / 2 - (this.backgroundImageSetup.imageWidth * this.edit.resize) / 2+105,
 			imageOnCanvasY: 0,
-			imageWidthResize: this.backgroundImageSetup.imageWidth * this.backgroundImageSetup.imageResize,
-			imageHeightResize: this.backgroundImageSetup.imageHeight * this.backgroundImageSetup.imageResize + 105,
+			widthResize: this.backgroundImageSetup.imageWidth * this.edit.resize-205,
+			heightResize: this.backgroundImageSetup.imageHeight * this.edit.resize+67,
 		};
 	}
 
 	drawBackground(ctx) {
-		ctx.fillStyle = 'rgba(50,100,130, 1)';
+		ctx.fillStyle = 'rgba(158,220,200, 1)';
 		ctx.fillRect(0, 0, this.snake.game.canvas.width, this.snake.game.canvas.height);
 	}
 
@@ -33,8 +35,8 @@ export class Background {
 			this.backgroundImageSetup.imageHeight,
 			this.backgroundSetUp.imageOnCanvasX,
 			this.backgroundSetUp.imageOnCanvasY,
-			this.backgroundSetUp.imageWidthResize,
-			this.backgroundSetUp.imageHeightResize
+			this.backgroundSetUp.widthResize,
+			this.backgroundSetUp.heightResize
 		);
 	}
 }

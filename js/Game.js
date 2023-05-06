@@ -46,6 +46,7 @@ class Game {
 					break;
 				case 'snake':
 					this.snakeGame.draw(ctx, timeStamp);
+					this.snakeGame.collision();
 					this.snakeGame.moves(timeStamp);
 					break;
 			}
