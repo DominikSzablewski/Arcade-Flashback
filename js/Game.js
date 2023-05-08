@@ -21,7 +21,7 @@ class Game {
 			delta: 0,
 			lastTime: 0,
 			devMode: false,
-			scene: 'snake',
+			scene: localStorage.getItem('scene') || 'main',
 		};
 		this.snakeGame = new SnakeGame(this);
 		this.tilesForCollision = new TilesForCollision(this);
@@ -37,14 +37,23 @@ class Game {
 	render(ctx, timeStamp) {
 		this.gameSetup.delta = timeStamp - this.gameSetup.lastTime;
 		if (this.gameSetup.delta > 1000 / this.gameSetup.gameFps) {
+			if (
+				this.background.sprite.position.x <= -3283 &&
+				this.background.sprite.position.x >= -3400 &&
+				this.background.sprite.position.y === -3216
+			) {
+				this.gameSetup.scene = 'snake';
+			}
 			switch (this.gameSetup.scene) {
 				case 'main':
+					localStorage.setItem('scene', 'main');
 					for (const el of this.forDraw) {
 						el.draw(ctx);
 					}
 					this.player.character.characterMoves(timeStamp);
 					break;
 				case 'snake':
+					localStorage.setItem('scene', 'snake');
 					this.snakeGame.draw(ctx, timeStamp);
 					this.snakeGame.collision();
 					this.snakeGame.moves(timeStamp);
@@ -53,7 +62,6 @@ class Game {
 
 			this.gameSetup.lastTime = timeStamp;
 		}
-		// console.log(navigator.userAgent);
 	}
 }
 window.addEventListener('load', () => {

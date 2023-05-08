@@ -19,13 +19,12 @@ export class SnakeBodyPart {
 		};
 		this.bodyPart = {
 			head: false,
-			body: false,
 			tail: false,
+			endOfTail: false,
 			color: null,
 		};
 	}
 }
-
 export class SnakeCharacter {
 	constructor(snake) {
 		this.snake = snake;
@@ -37,6 +36,22 @@ export class SnakeCharacter {
 			}),
 			new SnakeBodyPart({
 				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 7 },
+				side: this.side,
+			}),
+			new SnakeBodyPart({
+				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 6 },
+				side: this.side,
+			}),
+			new SnakeBodyPart({
+				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 5 },
+				side: this.side,
+			}),
+			new SnakeBodyPart({
+				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 4 },
+				side: this.side,
+			}),
+			new SnakeBodyPart({
+				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 3 },
 				side: this.side,
 			}),
 		];
@@ -121,6 +136,8 @@ export class SnakeCharacter {
 			this.interpreter(index, el);
 			ctx.fillStyle = el.bodyPart.color;
 			ctx.fillRect(el.position.x, el.position.y, el.collision.width, el.collision.height);
+			ctx.shadowColor = 'rgba(188,77,26,255)';
+			ctx.shadowBlur = 15;
 			ctx.drawImage(
 				el.sprite.src,
 				el.sprite.frameX * el.sprite.width,
@@ -132,6 +149,7 @@ export class SnakeCharacter {
 				el.sprite.width * el.edit.resize,
 				el.sprite.height * el.edit.resize
 			);
+			ctx.shadowBlur = 0;
 		}
 	}
 }

@@ -14,15 +14,16 @@ export class Background {
 		};
 
 		this.backgroundSetUp = {
-			imageOnCanvasX: this.snake.game.canvas.width / 2 - (this.backgroundImageSetup.imageWidth * this.edit.resize) / 2+105,
+			imageOnCanvasX:
+				this.snake.game.canvas.width / 2 - (this.backgroundImageSetup.imageWidth * this.edit.resize) / 2 + 105,
 			imageOnCanvasY: 0,
-			widthResize: this.backgroundImageSetup.imageWidth * this.edit.resize-205,
-			heightResize: this.backgroundImageSetup.imageHeight * this.edit.resize+67,
+			widthResize: this.backgroundImageSetup.imageWidth * this.edit.resize - 205,
+			heightResize: this.backgroundImageSetup.imageHeight * this.edit.resize + 67,
 		};
 	}
 
 	drawBackground(ctx) {
-		ctx.fillStyle = 'rgba(158,220,200, 1)';
+		ctx.fillStyle = 'RGB(152, 180, 212)';
 		ctx.fillRect(0, 0, this.snake.game.canvas.width, this.snake.game.canvas.height);
 	}
 
