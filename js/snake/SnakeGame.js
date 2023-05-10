@@ -1,11 +1,11 @@
 import { InputHandler } from '../main/InputHandler.js';
 import { Move } from './Move.js';
 import { Grid } from './Grid.js';
-import { Background } from './Background.js';
+import { Background, BackgroundImage } from './Background.js';
 import { Board } from './Board.js';
 import { SnakeCharacter } from './SnakeCharacter.js';
 import { Apple } from './Apple.js';
-import { SnakeScore, SnakeHighScore } from '../main/Text.js';
+import { SnakeScore, SnakeHighScore } from './Score.js';
 export class SnakeGame {
 	constructor(game) {
 		this.game = game;
@@ -29,6 +29,7 @@ export class SnakeGame {
 		};
 
 		this.background = new Background(this);
+		this.backgroundImage = new BackgroundImage(this);
 		this.board = new Board(this);
 		this.grid = new Grid(this);
 		this.inputHandler = new InputHandler(this);
@@ -42,12 +43,12 @@ export class SnakeGame {
 	draw(ctx, timestamp) {
 		this.drawFpsSetup.delta = timestamp - this.drawFpsSetup.lastTime;
 		if (this.drawFpsSetup.delta > 1000 / this.drawFpsSetup.drawFps) {
-			this.background.drawBackground(ctx);
+			this.background.draw(ctx);
 			this.board.draw(ctx);
 			this.grid.draw(ctx);
 			this.apple.draw(ctx);
 			this.snakeCharacter.draw(ctx);
-			this.background.drawBackgroundImage(ctx);
+			this.backgroundImage.draw(ctx);
 			this.score.digit.draw(ctx);
 			this.highScore.digit.draw(ctx);
 			this.drawFpsSetup.lastTime = timestamp;
@@ -57,7 +58,7 @@ export class SnakeGame {
 	moves(timestamp) {
 		this.snakeFpsSetup.delta = timestamp - this.snakeFpsSetup.lastTime;
 		if (this.snakeFpsSetup.delta > 1000 / this.snakeFpsSetup.snakeFps) {
-			this.move.movement();
+			this.move.movements();
 			this.snakeFpsSetup.lastTime = timestamp;
 		}
 	}

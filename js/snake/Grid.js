@@ -1,12 +1,16 @@
+import { Image } from '../main/Image.js';
 export class Grid {
 	constructor(snake) {
 		this.snake = snake;
-		this.gridSetup = {
-			src: document.getElementById('grid'),
-			imageOnCanvasX: 0,
-			imageOnCanvasY: 0,
-		};
-
+		this.image = new Image({
+			src: { id: 'grid' },
+			size: { width: 1900, height: 900 },
+			position: { x: 0, y: 0 },
+			positionOnImage: { x: 0, y: 0 },
+			edit: { resize: 1 },
+			offsetSize: { x: 0, y: 0 },
+			offsetPosition: { x: 0, y: 0 },
+		});
 		this.devMode = this.snake.game.gameSetup.devMode ? true : false;
 	}
 
@@ -45,7 +49,7 @@ export class Grid {
 
 	draw(ctx) {
 		if (this.devMode) {
-			ctx.drawImage(this.gridSetup.src, this.gridSetup.imageOnCanvasX, this.gridSetup.imageOnCanvasY);
+			this.image.draw(ctx);
 		}
 	}
 }

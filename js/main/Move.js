@@ -19,8 +19,7 @@ export class Move {
 		}
 	}
 
-	speed({ x, y }, timeStamp) {
-		this.animate(timeStamp);
+	speed({ x, y }) {
 		for (const el of this.game.forUpdateAxis) {
 			el.position.x += x;
 			el.position.y += y;
@@ -58,10 +57,7 @@ export class Move {
 				}
 			}
 			if (this.inputHandler.animationStart) {
-				for (const el of this.game.forUpdateAxis) {
-					el.position.x += speed.x;
-					el.position.y += speed.y;
-				}
+				this.speed({ x: speed.x, y: speed.y });
 				this.spriteSetup.frameY = spriteFrameSide.side;
 			}
 		}
@@ -109,7 +105,7 @@ export class Move {
 			timeStamp,
 		});
 		if (!this.inputHandler.animationStart) {
-			this.speed({ x: 0, y: 0 }, timeStamp);
+			this.speed({ x: 0, y: 0 });
 		}
 	}
 }

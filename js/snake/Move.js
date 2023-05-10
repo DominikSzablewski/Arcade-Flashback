@@ -32,7 +32,7 @@ export class Move {
 		}
 	}
 
-	movement() {
+	movements() {
 		if (this.snake.lastKey === 'w' || this.snake.lastKey === 'W') {
 			this.apply({ x: 0, y: -24, side: 'up' });
 		}
@@ -65,10 +65,10 @@ export class Move {
 						height: el.collision.height - el.edit.offset,
 					},
 					rect2: {
-						x: this.snake.apple.position.x,
-						y: this.snake.apple.position.y,
-						width: this.snake.apple.collision.width - this.snake.apple.edit.offset,
-						height: this.snake.apple.collision.height - this.snake.apple.edit.offset,
+						x: this.snake.apple.collision.x,
+						y: this.snake.apple.collision.y,
+						width: this.snake.apple.collision.width,
+						height: this.snake.apple.collision.height,
 					},
 				})
 			) {

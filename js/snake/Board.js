@@ -1,39 +1,26 @@
+import { Image } from '../main/Image.js';
+
 export class Board {
 	constructor(snake) {
 		this.snake = snake;
-		this.setup = {
-			src: document.getElementById('grass'),
-			onSourceX: 0,
-			onSourceY: 0,
-			width: 200,
-			height: 200,
-			onCanvasX: this.snake.boardSetup.x,
-			onCanvasY: this.snake.boardSetup.y,
-		};
-		this.offset = {
-			x: 52,
-			y: 17,
-		};
 	}
-
-	grass(ctx, { onCanvasX, onCanvasY }) {
-		ctx.drawImage(
-			this.setup.src,
-			this.setup.onSourceX,
-			this.setup.onSourceY,
-			this.setup.width,
-			this.setup.height,
-			this.setup.onCanvasX + onCanvasX,
-			this.setup.onCanvasY + onCanvasY,
-			this.setup.width + this.offset.x,
-			this.setup.height + this.offset.y
-		);
+	grass(ctx, { offsetPositionX, offsetPositionY }) {
+		this.image = new Image({
+			src: { id: 'grass' },
+			size: { width: 200, height: 200 },
+			position: { x: this.snake.boardSetup.x, y: this.snake.boardSetup.y },
+			positionOnImage: { x: 0, y: 0 },
+			edit: { resize: 1 },
+			offsetSize: { x: 52, y: 17 },
+			offsetPosition: { x: offsetPositionX, y: offsetPositionY },
+		});
+		this.image.draw(ctx);
 	}
 
 	draw(ctx) {
-		this.grass(ctx, { onCanvasX: 0, onCanvasY: 0 });
-		this.grass(ctx, { onCanvasX: this.setup.width + this.offset.x, onCanvasY: 0 });
-		this.grass(ctx, { onCanvasX: 0, onCanvasY: this.setup.height + this.offset.y });
-		this.grass(ctx, { onCanvasX: this.setup.width + this.offset.x, onCanvasY: this.setup.height + this.offset.y });
+		this.grass(ctx, { offsetPositionX: 0, offsetPositionY: 0 });
+		this.grass(ctx, { offsetPositionX: 252, offsetPositionY: 0 });
+		this.grass(ctx, { offsetPositionX: 0, offsetPositionY: 217 });
+		this.grass(ctx, { offsetPositionX: 252, offsetPositionY: 217 });
 	}
 }
