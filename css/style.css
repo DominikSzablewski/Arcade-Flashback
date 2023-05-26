@@ -17,16 +17,23 @@ body {
 #background_1,
 #foreground,
 #player,
-#snakeBackgroundImage,
-#grid,
+#menuBackgroundMain,
+#menu-areaMain,
+#menu-areaBoard,
+#menu-areaMain__button,
+#menu-areaMain__arrowLeft,
+#menu-areaMain__arrowRight,
+#menu-areaMain__on,
+#menu-areaMain__off,
+#menuBackgroundImageSnake,
+#gridSnake,
 #snakeSprite,
 #appleSprite,
-#grass {
+#board1Snake,
+#board2Snake,
+#menu-areaSnake,
+#menu-areaSnake__header,
+#menu-areaSnake__button,
+#selectSnake {
   display: none;
-}
-
-#canvas1 {
-  height: 100vh;
-  border-left: 2px solid white;
-  border-right: 2px solid white;
 }/*# sourceMappingURL=style.css.map */

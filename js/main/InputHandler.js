@@ -1,10 +1,10 @@
 export class InputHandler {
 	constructor(receiver) {
 		this.receiver = receiver;
+		this.receiver.lastKey = null;
 		this.keyPressTemp = null;
 		this.keyReleaseTemp = null;
-		// this.animationStart = false;
-
+		this.menuMain = false;
 		window.addEventListener('keydown', e => {
 			if (
 				e.key === 'w' ||
@@ -20,13 +20,14 @@ export class InputHandler {
 				this.animationStart = true;
 				this.receiver.lastKey = e.key;
 			}
+			if (e.key === 'Escape') {
+				this.menuMain = true;
+			}
 		});
 
 		window.addEventListener('keyup', e => {
 			this.keyReleaseTemp = e.key;
-			if (this.keyPressTemp === this.keyReleaseTemp) {
-				this.animationStart = false;
-			}
+			this.keyPressTemp === this.keyReleaseTemp && (this.animationStart = false);
 		});
 
 		window.addEventListener('blur', () => {

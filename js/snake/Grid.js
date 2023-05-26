@@ -3,13 +3,13 @@ export class Grid {
 	constructor(snake) {
 		this.snake = snake;
 		this.image = new Image({
-			src: { id: 'grid' },
+			src: { id: 'gridSnake' },
 			size: { width: 1900, height: 900 },
+			offsetSize: { x: 0, y: 0 },
 			position: { x: 0, y: 0 },
+			offsetPosition: { x: 0, y: 0 },
 			positionOnImage: { x: 0, y: 0 },
 			edit: { resize: 1 },
-			offsetSize: { x: 0, y: 0 },
-			offsetPosition: { x: 0, y: 0 },
 		});
 		this.devMode = this.snake.game.gameSetup.devMode ? true : false;
 	}

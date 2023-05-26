@@ -2,15 +2,18 @@ export class Text {
 	constructor({
 		words,
 		position = { x, y },
+		offsetPosition = { x, y },
 		font = { size, color },
 		shadow = { color, blur, OffsetX, OffsetY },
 		letterSpacing,
 		wordSpacing,
-		score = { turnOn },
-		highScore = { turnOn },
+		score = { turnOn: false },
+		highScore = { turnOn: false },
+		scoreFor,
 	}) {
 		this.words = words;
 		this.position = position;
+		this.offsetPosition = offsetPosition;
 		this.font = font;
 		this.shadow = shadow;
 		this.letterSpacing = letterSpacing;
@@ -18,7 +21,8 @@ export class Text {
 		this.score = score;
 		this.highScore = highScore;
 		this.scorePoints = 0;
-		this.highScorePoints = localStorage.getItem('highScore') || 0;
+		this.scoreFor = scoreFor;
+		this.highScorePoints = localStorage.getItem(`highScore${this.scoreFor}`) || 0;
 		this.countScore();
 	}
 
@@ -32,16 +36,17 @@ export class Text {
 				this.words.pop();
 				this.words.push(this.pointsToString);
 			}
+			if (this.scorePoints > 0) {
+				localStorage.setItem(`score`, `${this.scorePoints}`);
+			}
 		}
 		if (this.highScore.turnOn) {
 			this.pointsToString = this.highScorePoints.toString();
 			this.words.push(this.pointsToString);
-			if (this.words.length > 3) {
-				this.words.pop();
-			}
+			this.words.length > 3 && this.words.pop();
 			if (this.scorePoints > this.highScorePoints) {
 				this.highScorePoints = this.scorePoints;
-				localStorage.setItem('highScore', `${this.scorePoints}`);
+				localStorage.setItem(`highScore${this.scoreFor}`, `${this.scorePoints}`);
 				this.pointsToString = this.highScorePoints.toString();
 				this.words.pop();
 				this.words.push(this.pointsToString);
@@ -51,26 +56,30 @@ export class Text {
 
 	colon(ctx, letter) {
 		if (letter === ':') {
-			ctx.fillText(letter, this.position.x + this.letterWidth, this.position.y - 3);
+			ctx.fillText(
+				letter,
+				this.position.x + this.letterWidth + this.offsetPosition.x,
+				this.position.y - 3 + this.offsetPosition.y
+			);
 		} else {
-			ctx.fillText(letter, this.position.x + this.letterWidth, this.position.y);
+			ctx.fillText(
+				letter,
+				this.position.x + this.letterWidth + this.offsetPosition.x,
+				this.position.y + this.offsetPosition.y
+			);
 		}
 	}
 
 	text(ctx, letterIndex, letter, { statement, symbol, letterWidthValue }) {
 		if (statement) {
 			if (letterIndex === 0) {
-				if (symbol === '=') {
-					this.letterWidth = letterWidthValue;
-				} else if (symbol === '+=') {
-					this.letterWidth += letterWidthValue;
-				}
+				symbol === '=' && (this.letterWidth = letterWidthValue);
+				symbol === '+=' && (this.letterWidth += letterWidthValue);
 			} else {
 				this.letterWidth += ctx.measureText(this.letterArray[letterIndex - 1]).width + this.letterSpacing;
 			}
-			if (letterIndex === this.letterArray.length - 1) {
-				this.lastLetter = ctx.measureText(letter).width + this.letterSpacing;
-			}
+			letterIndex === this.letterArray.length - 1 &&
+				(this.lastLetter = ctx.measureText(letter).width + this.letterSpacing);
 			this.colon(ctx, letter);
 		}
 	}

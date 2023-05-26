@@ -1,7 +1,7 @@
 import { InputHandler } from './InputHandler.js';
 import { Move } from './Move.js';
 
-class Character extends Move {
+export class Character extends Move {
 	constructor(
 		game,
 		{
@@ -18,8 +18,8 @@ class Character extends Move {
 					resize,
 				},
 			},
-			characterSetup = { characterSpeed, characterFps, delta, lastTime },
-			collisionSetup = { offsetX, offsetY, predictCollisionPerPixel, width, height },
+			characterSetup = { x, y, characterSpeed, characterFps, delta, lastTime },
+			collisionSetup = { x, y, predictCollisionPerPixel, width, height },
 		}
 	) {
 		super();
@@ -28,13 +28,13 @@ class Character extends Move {
 		this.spriteImage = document.getElementById(this.spriteSetup.src);
 		this.characterSetup = characterSetup;
 		this.characterPosition = {
-			x: this.game.canvas.width / 2 - (this.spriteSetup.spriteWidth * this.spriteSetup.edit.resize) / 2,
-			y: this.game.canvas.height / 2 - (this.spriteSetup.spriteHeight * this.spriteSetup.edit.resize) / 2,
+			x: this.characterSetup.x,
+			y: this.characterSetup.y,
 		};
 		this.collisionSetup = collisionSetup;
 		this.collisionPosition = {
-			x: this.game.canvas.width / 2 - this.collisionSetup.width / 2 - this.collisionSetup.offsetX,
-			y: this.game.canvas.height / 2 - this.collisionSetup.height / 2 + this.collisionSetup.offsetY,
+			x: this.collisionSetup.x,
+			y: this.collisionSetup.y,
 		};
 		this.inputHandler = new InputHandler(this);
 		this.devMode = this.game.gameSetup.devMode ? 0.5 : 0;
@@ -59,28 +59,5 @@ class Character extends Move {
 			this.collisionSetup.width,
 			this.collisionSetup.height
 		);
-	}
-}
-
-export class Player {
-	constructor(game) {
-		this.game = game;
-		this.character = new Character(this.game, {
-			spriteSetup: {
-				src: 'player',
-				firstSpriteFrameX: 6,
-				frameX: 7,
-				frameXTemp: 7,
-				endFrameX: 9,
-				frameY: 0,
-				spriteWidth: 48,
-				spriteHeight: 72.5,
-				edit: {
-					resize: 2.4,
-				},
-			},
-			characterSetup: { characterSpeed: 13, characterFps: 16, delta: 0, lastTime: 0 },
-			collisionSetup: { offsetX: 8, offsetY: 80, predictCollisionPerPixel: 13, width: 60, height: 50 },
-		});
 	}
 }

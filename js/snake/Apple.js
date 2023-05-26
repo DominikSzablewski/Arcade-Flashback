@@ -5,14 +5,14 @@ export class Apple {
 		this.image = new Image({
 			src: { id: 'appleSprite' },
 			size: { width: 64, height: 64 },
+			offsetSize: { x: 0, y: 0 },
 			position: {
-				x: this.snake.boardSetup.x + 24 * 1,
-				y: this.snake.boardSetup.y + 24 * 10,
+				x: this.snake.boardSetup.x,
+				y: this.snake.boardSetup.y,
 			},
+			offsetPosition: { x: -12, y: -7 },
 			positionOnImage: { x: 0, y: 0 },
 			edit: { resize: 0.77 },
-			offsetSize: { x: 0, y: 0 },
-			offsetPosition: { x: -12, y: -7 },
 		});
 		this.collision = {
 			width: 18,
@@ -21,6 +21,7 @@ export class Apple {
 			y: this.image.position.y + 3,
 		};
 		this.devMode = this.snake.game.gameSetup.devMode ? 0.5 : 0;
+		this.randomize();
 	}
 
 	draw(ctx) {

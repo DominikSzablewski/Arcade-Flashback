@@ -30,7 +30,7 @@ export class Move {
 		key = { lowercase, uppercase },
 		collision = { x, y },
 		speed = { x, y },
-		spriteFrameSide = { side },
+		spriteFrameSide = { side1, side2 },
 		timeStamp,
 	}) {
 		if (this.lastKey === key.lowercase || this.lastKey === key.uppercase) {
@@ -57,8 +57,13 @@ export class Move {
 				}
 			}
 			if (this.inputHandler.animationStart) {
+				this.playerNumber = Number(localStorage.getItem('playerNumber'));
+				if (this.playerNumber >= 4 && this.playerNumber <= 7) {
+					this.spriteSetup.frameY = spriteFrameSide.side2;
+				} else {
+					this.spriteSetup.frameY = spriteFrameSide.side1;
+				}
 				this.speed({ x: speed.x, y: speed.y });
-				this.spriteSetup.frameY = spriteFrameSide.side;
 			}
 		}
 	}
@@ -71,7 +76,7 @@ export class Move {
 				y: this.collisionPosition.y - this.collisionSetup.predictCollisionPerPixel,
 			},
 			speed: { x: 0, y: this.characterSetup.characterSpeed },
-			spriteFrameSide: { side: 3 },
+			spriteFrameSide: { side1: 3, side2: 7 },
 			timeStamp,
 		});
 		this.move({
@@ -81,7 +86,7 @@ export class Move {
 				y: this.collisionPosition.y + this.collisionSetup.predictCollisionPerPixel,
 			},
 			speed: { x: 0, y: -this.characterSetup.characterSpeed },
-			spriteFrameSide: { side: 0 },
+			spriteFrameSide: { side1: 0, side2: 4 },
 			timeStamp,
 		});
 		this.move({
@@ -91,7 +96,7 @@ export class Move {
 				y: this.collisionPosition.y,
 			},
 			speed: { x: this.characterSetup.characterSpeed, y: 0 },
-			spriteFrameSide: { side: 1 },
+			spriteFrameSide: { side1: 1, side2: 5 },
 			timeStamp,
 		});
 		this.move({
@@ -101,7 +106,7 @@ export class Move {
 				y: this.collisionPosition.y,
 			},
 			speed: { x: -this.characterSetup.characterSpeed, y: 0 },
-			spriteFrameSide: { side: 2 },
+			spriteFrameSide: { side1: 2, side2: 6 },
 			timeStamp,
 		});
 		if (!this.inputHandler.animationStart) {

@@ -10,8 +10,8 @@ class TileForCollision {
 			collision: false,
 		};
 		this.position = {
-			x: this.tile.x * this.collisionSetup.width + this.game.gameSetup.x,
-			y: this.tile.y * this.collisionSetup.height + this.game.gameSetup.y,
+			x: this.tile.x * this.collisionSetup.width + this.game.gameSetup.position.x,
+			y: this.tile.y * this.collisionSetup.height + this.game.gameSetup.position.y,
 		};
 		this.devMode = this.game.gameSetup.devMode ? 0.5 : 0;
 	}

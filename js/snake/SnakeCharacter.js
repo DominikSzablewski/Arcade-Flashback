@@ -38,31 +38,13 @@ export class SnakeCharacter {
 				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 7 },
 				side: this.side,
 			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 6 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 5 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 4 },
-				side: this.side,
-			}),
-			new SnakeBodyPart({
-				position: { x: this.snake.boardSetup.x + 24 * 7, y: this.snake.boardSetup.y + 24 * 3 },
-				side: this.side,
-			}),
 		];
 		this.devMode = this.snake.game.gameSetup.devMode ? 0.5 : 0;
 	}
 
 	basicSpriteFrame(el, { side, frameX, frameY }) {
-		if (el.side === side) {
-			el.sprite.frameX = frameX;
-			el.sprite.frameY = frameY;
-		}
+		el.side === side && (el.sprite.frameX = frameX);
+		el.side === side && (el.sprite.frameY = frameY);
 	}
 
 	turningSpriteFrame(index, el, { from, to, from2, to2, frameX, frameY }) {

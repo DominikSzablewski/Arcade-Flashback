@@ -2,11 +2,11 @@ export class Image {
 	constructor({
 		src = { id },
 		size = { width, height },
+		offsetSize = { x, y },
 		position = { x, y },
+		offsetPosition = { x, y },
 		positionOnImage = { x, y },
 		edit = { resize },
-		offsetSize = { x, y },
-		offsetPosition = { x, y },
 	}) {
 		this.src = src;
 		this.image = document.getElementById(this.src.id);
