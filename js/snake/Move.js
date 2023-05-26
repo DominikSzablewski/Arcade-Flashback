@@ -117,10 +117,14 @@ export class Move {
 				);
 				this.snake.score.digit.scorePoints += 1;
 				this.snake.score.digit.countScore();
-				this.snake.highScoreEasy.digit.scorePoints += 1;
-				this.snake.highScoreEasy.digit.countScore();
-				this.snake.highScoreHard.digit.scorePoints += 1;
-				this.snake.highScoreHard.digit.countScore();
+				if (this.snake.menuScene === 'startEasySnake') {
+					this.snake.highScoreEasy.digit.scorePoints += 1;
+					this.snake.highScoreEasy.digit.countScore();
+				}
+				if (this.snake.menuScene === 'startHardSnake') {
+					this.snake.highScoreHard.digit.scorePoints += 1;
+					this.snake.highScoreHard.digit.countScore();
+				}
 			}
 		}
 	}
