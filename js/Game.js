@@ -1,3 +1,5 @@
+import { fontExport } from '../font/FontImport.js';
+fontExport();
 import { Background, Foreground } from './main/Background.js';
 import { ForNewGameMain } from './main/menuStyles/ForNewGameMain.js';
 import { TilesForCollision } from './main/TileForCollision.js';
@@ -10,7 +12,6 @@ const canvas = /** @type {HTMLCanvasElement} */ (document.querySelector('#canvas
 const ctx = canvas.getContext('2d');
 canvas.width = 1900;
 canvas.height = 900;
-
 class Game {
 	constructor() {
 		this.canvas = {
@@ -51,7 +52,7 @@ class Game {
 			this.menuScene = this.mouseService.menu.scene;
 			this.menuSceneEl = this.mouseService.menu.sceneElement;
 			this.selected = this.mouseService.menu.selected;
-			this.gameScene = localStorage.getItem('scene') || 'startingMenu';		
+			this.gameScene = localStorage.getItem('scene') || 'startingMenu';
 			this.sceneSwitcher.detect(ctx, timeStamp);
 			this.mouseService.sceneWatcher();
 			this.gameSetup.lastTime = timeStamp;
