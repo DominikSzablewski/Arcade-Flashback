@@ -1,5 +1,5 @@
 import { twoDimensionalArrayData } from '../../data/collisionData.js';
-class TileForCollision {
+export class TileForCollision {
 	constructor(game, { tile = { x, y } }) {
 		this.game = game;
 		this.tile = tile;

@@ -1,3 +1,4 @@
+import { audioSettings } from './audio.js';
 export class Text {
 	constructor({
 		words,
@@ -22,7 +23,8 @@ export class Text {
 		this.highScore = highScore;
 		this.scorePoints = 0;
 		this.scoreFor = scoreFor;
-		this.highScorePoints = localStorage.getItem(`highScore${this.scoreFor}`) || 0;
+		this.highScorePoints = localStorage.getItem(`highScore${this.scoreFor}`) || 2;
+		this.highScoreVoiceover = false;
 		this.countScore();
 	}
 
@@ -45,6 +47,10 @@ export class Text {
 			this.words.push(this.pointsToString);
 			this.words.length > 3 && this.words.pop();
 			if (this.scorePoints > this.highScorePoints) {
+				if (!this.highScoreVoiceover) {
+					audioSettings.highScoreVoiceover.play();
+					this.highScoreVoiceover = true;
+				}
 				this.highScorePoints = this.scorePoints;
 				localStorage.setItem(`highScore${this.scoreFor}`, `${this.scorePoints}`);
 				this.pointsToString = this.highScorePoints.toString();

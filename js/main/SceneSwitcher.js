@@ -1,6 +1,21 @@
+import { audioSettings } from './audio.js';
 export class SceneSwitcher {
 	constructor(game) {
 		this.game = game;
+		this.activeNpcFlag = false;
+		this.snakeArcadeFlag = false;
+	}
+	playerPush() {
+		for (const [index, element] of this.game.forUpdateAxis.entries()) {
+			for (const el of element) {
+				if (index === 0) {
+					el.position.y -= 40;
+				}
+			}
+		}
+
+		this.game.npc.character.characterPosition.y = 33.5 * 128 + this.game.gameSetup.position.y;
+		this.game.npc.character.collisionPosition.y = 33.5 * 128 + this.game.gameSetup.position.y + 140;
 	}
 
 	snakeArcade() {
@@ -11,14 +26,56 @@ export class SceneSwitcher {
 			this.game.background.image.position.y >= -3240
 		) {
 			localStorage.setItem('scene', 'snake');
-			for (const el of this.game.forUpdateAxis) {
-				el.position.y -= 30;
-			}
+			audioSettings.main.stop();
+			audioSettings.walking.stop();
+			audioSettings.snake.play();
+			audioSettings.select.volume(1);
+
+			this.snakeArcadeFlag = true;
+			this.playerPush();
 		}
+	}
+
+	npcInitPack(npcName) {
+		this.activeNpcFlag = true;
+		this.game.npc.npcScene = npcName;
+		this.game.npc.dialogueFlag = true;
+	}
+
+	beatScoresSnakeQuest() {
+		const highScoreSnakeEasy = Number(localStorage.getItem('highScoreSnakeEasy'));
+		const highScoreSnakeHard = Number(localStorage.getItem('highScoreSnakeHard'));
+		if (highScoreSnakeEasy > 2 && highScoreSnakeHard > 2 && !this.game.npc.completedQuest.npcDominik.snake) {
+			localStorage.setItem('npcConversation', 4);
+			this.game.npc.npcConversation = 4;
+		}
+	}
+
+	npcDominik() {
+		if (this.game.gameSetup.position.x === -823 && this.game.npc.npcConversation === 1 && !this.activeNpcFlag) {
+			this.npcInitPack('npcDominik');
+		}
+		if (
+			this.game.background.image.position.x <= -4775 &&
+			this.game.background.image.position.x >= -4970 &&
+			this.game.background.image.position.y <= -3996 &&
+			this.game.background.image.position.y >= -4020 &&
+			!this.activeNpcFlag &&
+			(this.game.npc.npcConversation === 2 ||
+				this.game.npc.npcConversation === 3 ||
+				this.game.npc.npcConversation === 4 ||
+				this.game.npc.npcConversation === 5 ||
+				this.game.npc.npcConversation === 6)
+		) {
+			this.playerPush();
+			this.npcInitPack('npcDominik');
+		}
+		this.beatScoresSnakeQuest();
 	}
 
 	detect(ctx, timeStamp) {
 		this.snakeArcade();
+		this.npcDominik();
 		switch (this.game.gameScene) {
 			case 'startingMenu':
 				this.game.menu.draw(ctx);

@@ -1,15 +1,22 @@
+import { audioSettings } from './audio.js';
 const canvas = /** @type {HTMLCanvasElement} */ (document.querySelector('#canvas1'));
 canvas.width = 1900;
 canvas.height = 900;
 
 export class MouseService {
-	constructor() {
+	constructor(game) {
+		this.game = game;
+		this.scene = null;
+		this.npcScene = null;
 		this.menu = {
 			sceneElement: false,
-			scene: 'menuMain', //menu/board/options/game/exit
+			scene: 'menuMain',
 			selected: { board: 'board1Snake' },
 		};
 		this.menuFlagSnake = false;
+		this.startFlagMain = false;
+		this.clickFlag = false;
+		this.npcHoverFlag = false;
 		this.playerNumber = Number(localStorage.getItem('playerNumber')) || 0;
 	}
 
@@ -37,6 +44,7 @@ export class MouseService {
 				board1Snake: y > 483 && y < 565 && x > 852 && x < 938,
 				board2Snake: y > 483 && y < 565 && x > 958 && x < 1044,
 			},
+			npc: y > 801 && y < 852 && x > 1369 && x < 1417,
 		});
 	}
 
@@ -103,6 +111,15 @@ export class MouseService {
 					this.detectEl(detectEl);
 					break;
 			}
+			switch (this.npcScene) {
+				case 'npcDominik':
+					area.npc
+						? this.cursorPointer() && (this.npcHoverFlag = true)
+						: this.cursorDefault() && (this.npcHoverFlag = false);
+					break;
+				default:
+					break;
+			}
 		});
 	}
 
@@ -124,72 +141,248 @@ export class MouseService {
 		}
 	}
 
+	dialogueCounting() {
+		if (
+			this.game.npc.dialogueCountingFlag &&
+			(this.game.npc.npcConversation === 1 || this.game.npc.npcConversation === 4)
+		) {
+			this.game.npc.dialogueCountingFlag = false;
+			this.game.npc.dialogueNumber++;
+		}
+	}
+
+	npcDialogueResetPack({
+		npcConversation = { nr },
+		npcConversationToLocalStorage = { flag: false },
+		dialog = { flag: false },
+		sound = { flag: false },
+	}) {
+		npcConversationToLocalStorage.flag && localStorage.setItem('npcConversation', npcConversation.nr);
+		this.game.npc.npcConversation = npcConversation.nr;
+		this.game.npc.npcScene = null;
+		this.npcScene = null;
+		this.game.sceneSwitcher.activeNpcFlag = false;
+		this.game.npc.npcCollisionArray = [];
+		this.game.npc.arrayStopFlag = false;
+		this.npcHoverFlag = false;
+		dialog.flag && (this.game.npc.dialogueFlag = false);
+		sound.flag && (this.game.npc.soundFlag.npcDominik.conversation2_3_5_6.sound1 = false);
+	}
+
+	npcDialogueBtn() {
+		this.dialogueCounting();
+
+		if (
+			this.game.npc.npcScene === 'npcDominik' &&
+			this.game.npc.npcConversation === 1 &&
+			this.game.npc.questTextFlag &&
+			this.game.npc.character.characterPosition.x === 45.1 * 128 + this.game.gameSetup.position.x &&
+			this.game.npc.character.characterPosition.y === 33.5 * 128 + this.game.gameSetup.position.y
+		) {
+			this.npcDialogueResetPack({ npcConversation: { nr: 2 }, npcConversationToLocalStorage: { flag: true } });
+			this.game.npc.dialogueCountingFlag = false;
+			this.game.npc.dialogueNumber = 1;
+			this.game.npc.questTextFlag = false;
+
+			this.game.npc.character.spriteSetup.frameY = 0;
+		}
+
+		if (this.game.npc.npcScene === 'npcDominik' && this.game.npc.npcConversation === 2) {
+			this.npcDialogueResetPack({ npcConversation: { nr: 3 }, dialog: { flag: true }, sound: { flag: true } });
+		}
+		if (this.game.npc.npcScene === 'npcDominik' && this.game.npc.npcConversation === 3) {
+			this.npcDialogueResetPack({ npcConversation: { nr: 2 }, dialog: { flag: true }, sound: { flag: true } });
+		}
+		if (this.game.npc.npcScene === 'npcDominik' && this.game.npc.npcConversation === 4 && this.game.npc.questTextFlag) {
+			this.npcDialogueResetPack({
+				npcConversation: { nr: 5 },
+				npcConversationToLocalStorage: { flag: true },
+				dialog: { flag: true },
+			});
+			this.game.npc.dialogueCountingFlag = false;
+			this.game.npc.dialogueNumber = 1;
+			this.game.npc.questTextFlag = false;
+		}
+
+		if (this.game.npc.npcScene === 'npcDominik' && this.game.npc.npcConversation === 5) {
+			this.npcDialogueResetPack({ npcConversation: { nr: 6 }, dialog: { flag: true }, sound: { flag: true } });
+		}
+		if (this.game.npc.npcScene === 'npcDominik' && this.game.npc.npcConversation === 6) {
+			this.npcDialogueResetPack({ npcConversation: { nr: 5 }, dialog: { flag: true }, sound: { flag: true } });
+		}
+	}
+
+	selectAudio() {
+		audioSettings.select.play();
+		this.clickFlag = true;
+	}
+
 	click() {
 		canvas.addEventListener('click', e => {
 			this.sceneWatcher();
 			const { x, y } = this.fixOffset(e, {});
 			const area = this.areas(x, y, {});
+
+			if (!this.clickFlag) {
+				switch (this.scene) {
+					case 'startingMenu':
+						switch (this.menu.scene) {
+							case 'menuMain':
+								area.mainStart.btn1 && (this.menu.scene = 'newGameMain');
+								area.mainStart.btn1 && this.selectAudio();
+
+								break;
+							case 'newGameMain':
+								area.mainStart.arrowLeft && this.playerNumberForChoosePlayerLeft();
+								area.mainStart.arrowLeft && this.selectAudio();
+								area.mainStart.arrowRight && this.playerNumberForChoosePlayerRight();
+								area.mainStart.arrowRight && this.selectAudio();
+								if (area.mainStart.btn3) {
+									localStorage.setItem('scene', 'prepareToMain');
+									this.menu.scene = 'menuMain';
+									this.startFlagMain = false;
+									this.cursorDefault();
+									audioSettings.start.play();
+									this.clickFlag = true;
+								}
+								break;
+						}
+						break;
+					case 'snake':
+						switch (this.menu.scene) {
+							case 'menuSnake':
+								area.snake.btn1 && (this.menu.scene = 'boardSnake');
+								area.snake.btn1 && this.selectAudio();
+								if (area.snake.btn3) {
+									localStorage.setItem('scene', 'main');
+									this.menu.scene = 'menuMain';
+									this.menuFlagSnake = false;
+									this.cursorDefault();
+									audioSettings.snake.stop();
+									audioSettings.main.play();
+									audioSettings.start.play();
+									this.clickFlag = true;
+								}
+								break;
+							case 'boardSnake':
+								area.snake.btn1 && (this.menu.scene = 'difficultySnake');
+								area.snake.btn1 && this.selectAudio();
+								area.snake.board1Snake && (this.menu.selected.board = 'board1Snake');
+								area.snake.board1Snake && this.selectAudio();
+								area.snake.board2Snake && (this.menu.selected.board = 'board2Snake');
+								area.snake.board2Snake && this.selectAudio();
+								area.snake.btn3 && (this.menu.scene = 'menuSnake');
+								area.snake.btn3 && this.selectAudio();
+
+								break;
+							case 'difficultySnake':
+								area.snake.btn1 && (this.menu.scene = 'easySnake') && this.cursorDefault();
+								area.snake.btn1 && this.selectAudio();
+								area.snake.btn2 && (this.menu.scene = 'hardSnake');
+								area.snake.btn2 && this.selectAudio();
+								area.snake.btn3 && (this.menu.scene = 'boardSnake');
+								area.snake.btn3 && this.selectAudio();
+								break;
+							case 'easySnake':
+								if (area.snake.btn2) {
+									this.menu.scene = 'prepareToStartEasySnake';
+									this.cursorDefault();
+									audioSettings.snakeHissing.play();
+									this.clickFlag = true;
+								}
+								area.snake.btn3 && (this.menu.scene = 'difficultySnake');
+								area.snake.btn3 && this.selectAudio();
+
+								break;
+							case 'hardSnake':
+								if (area.snake.btn2) {
+									this.menu.scene = 'prepareToStartHardSnake';
+									this.cursorDefault();
+									audioSettings.snakeHissing.play();
+									this.clickFlag = true;
+								}
+								area.snake.btn3 && (this.menu.scene = 'difficultySnake');
+								area.snake.btn3 && this.selectAudio();
+								break;
+							case 'gameOverEasySnake':
+								if (area.snake.btn2) {
+									this.menu.scene = 'retryEasySnake';
+									this.cursorDefault();
+									audioSettings.gameOver.stop();
+									audioSettings.gameOverVoiceover.stop();
+									audioSettings.snakeHissing.play();
+									audioSettings.snake.play();
+									this.clickFlag = true;
+								}
+								if (area.snake.btn3) {
+									this.menu.scene = 'menuSnake';
+									audioSettings.gameOver.stop();
+									audioSettings.gameOverVoiceover.stop();
+									audioSettings.snake.play();
+									this.selectAudio();
+								}
+								break;
+							case 'gameOverHardSnake':
+								if (area.snake.btn2) {
+									this.menu.scene = 'retryHardSnake';
+									this.cursorDefault();
+									audioSettings.gameOver.stop();
+									audioSettings.gameOverVoiceover.stop();
+									audioSettings.snakeHissing.play();
+									audioSettings.snake.play();
+									this.clickFlag = true;
+								}
+								if (area.snake.btn3) {
+									this.menu.scene = 'menuSnake';
+									audioSettings.gameOver.stop();
+									audioSettings.gameOverVoiceover.stop();
+									audioSettings.snake.play();
+									this.selectAudio();
+								}
+								break;
+						}
+						break;
+
+					default:
+						this.cursorDefault();
+				}
+
+				switch (this.npcScene) {
+					case 'npcDominik':
+						area.npc && this.npcDialogueBtn();
+						area.npc && this.selectAudio();
+						area.npc && this.cursorPointer();
+						break;
+				}
+				!this.npcScene && area.npc && this.cursorDefault();
+			}
+		});
+
+		canvas.addEventListener('mouseup', e => {
+			const { x, y } = this.fixOffset(e, {});
+			const area = this.areas(x, y, {});
+
 			switch (this.scene) {
 				case 'startingMenu':
-					switch (this.menu.scene) {
-						case 'menuMain':
-							area.mainStart.btn1 && (this.menu.scene = 'newGameMain');
-							break;
-						case 'newGameMain':
-							area.mainStart.arrowLeft && this.playerNumberForChoosePlayerLeft();
-							area.mainStart.arrowRight && this.playerNumberForChoosePlayerRight();
-							if (area.mainStart.btn3) {
-								localStorage.setItem('scene', 'prepareToMain');
-								this.cursorDefault();
-								document.location.reload();
-							}
-							break;
-					}
 					break;
-				case 'snake':
-					switch (this.menu.scene) {
-						case 'menuSnake':
-							area.snake.btn1 && (this.menu.scene = 'boardSnake');
-							if (area.snake.btn3) {
-								localStorage.setItem('scene', 'main');
-								this.menu.scene = 'menuMain';
-								this.menuFlagSnake = false;
-								this.cursorDefault();
-							}
+			}
 
-							break;
-						case 'boardSnake':
-							area.snake.btn1 && (this.menu.scene = 'difficultySnake');
-							area.snake.board1Snake && (this.menu.selected.board = 'board1Snake');
-							area.snake.board2Snake && (this.menu.selected.board = 'board2Snake');
-							area.snake.btn3 && (this.menu.scene = 'menuSnake');
-							break;
-						case 'difficultySnake':
-							area.snake.btn1 && (this.menu.scene = 'easySnake') && this.cursorDefault();
-							area.snake.btn2 && (this.menu.scene = 'hardSnake');
-							area.snake.btn3 && (this.menu.scene = 'boardSnake');
-							break;
-						case 'easySnake':
-							area.snake.btn2 && (this.menu.scene = 'prepareToStartEasySnake') && this.cursorDefault();
-							area.snake.btn3 && (this.menu.scene = 'difficultySnake');
-
-							break;
-						case 'hardSnake':
-							area.snake.btn2 && (this.menu.scene = 'prepareToStartHardSnake') && this.cursorDefault();
-							area.snake.btn3 && (this.menu.scene = 'difficultySnake');
-							break;
-						case 'gameOverEasySnake':
-							area.snake.btn2 && (this.menu.scene = 'retryEasySnake');
-							area.snake.btn3 && (this.menu.scene = 'menuSnake');
-							break;
-						case 'gameOverHardSnake':
-							area.snake.btn2 && (this.menu.scene = 'retryHardSnake');
-							area.snake.btn3 && (this.menu.scene = 'menuSnake');
-							break;
-					}
-					break;
-				default:
-					this.cursorDefault();
+			if (
+				area.mainStart.btn1 ||
+				area.mainStart.btn2 ||
+				area.mainStart.btn3 ||
+				area.mainStart.arrowLeft ||
+				area.mainStart.arrowRight ||
+				area.snake.btn1 ||
+				area.snake.btn2 ||
+				area.snake.btn3 ||
+				area.snake.board1Snake ||
+				area.snake.board1Snake ||
+				area.npc
+			) {
+				if (this.clickFlag) {
+					this.clickFlag = false;
+				}
 			}
 		});
 	}
@@ -197,10 +390,12 @@ export class MouseService {
 	sceneWatcher() {
 		this.scene = localStorage.getItem('scene') || 'startingMenu';
 		if (localStorage.getItem('gameOverEasySnake') === 'true') {
+			audioSettings.select.volume(1);
 			this.menu.scene = 'gameOverEasySnake';
 			localStorage.removeItem('gameOverEasySnake');
 		}
 		if (localStorage.getItem('gameOverHardSnake') === 'true') {
+			audioSettings.select.volume(1);
 			this.menu.scene = 'gameOverHardSnake';
 			localStorage.removeItem('gameOverHardSnake');
 		}
@@ -218,9 +413,12 @@ export class MouseService {
 		}
 
 		if (this.scene === 'prepareToMain') {
-			setTimeout(() => {
-				localStorage.setItem('scene', 'main');
-			}, 350);
+			if (!this.startFlagMain) {
+				this.startFlagMain = true;
+				setTimeout(() => {
+					localStorage.setItem('scene', 'main');
+				}, 350);
+			}
 		}
 
 		if (this.scene === 'snake' && this.menuFlagSnake === false) {

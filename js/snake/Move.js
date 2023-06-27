@@ -1,10 +1,12 @@
 import { SnakeBodyPart } from './SnakeCharacter.js';
 import { detectCollision } from '../main/detectCollision.js';
-
+import { audioSettings } from '../main/audio.js';
 export class Move {
 	constructor(snake) {
 		this.snake = snake;
 		this.sides = null;
+		this.digitalBeepingFlag = false;
+		this.digitalBeepingArray = [null];
 	}
 
 	resetSnakeGameOver() {
@@ -21,6 +23,14 @@ export class Move {
 		localStorage.setItem('sides', 'true');
 	}
 
+	gameOverAudioPack() {
+		audioSettings.snakeHissing.stop();
+		audioSettings.snake.stop();
+		audioSettings.hit.play();
+		audioSettings.gameOverVoiceover.play();
+		audioSettings.gameOver.play();
+	}
+
 	apply({ x, y, side }) {
 		for (const [index, el] of this.snake.snakeCharacter.bodyArray.entries()) {
 			if (
@@ -31,9 +41,10 @@ export class Move {
 			) {
 				el.position.x += 0;
 				el.position.y += 0;
-
 				this.snake.menuScene === 'startEasySnake' && localStorage.setItem('gameOverEasySnake', 'true');
 				this.snake.menuScene === 'startHardSnake' && localStorage.setItem('gameOverHardSnake', 'true');
+				this.snake.highScoreEasy.digit.highScoreVoiceover = false;
+				this.gameOverAudioPack();
 				this.resetSnakeGameOver();
 			} else {
 				if (index === 0) {
@@ -51,6 +62,22 @@ export class Move {
 		}
 	}
 
+	digitalBeepingStatement() {
+		if (!this.digitalBeepingFlag) {
+			this.digitalBeepingArray.unshift(this.snake.lastKey);
+			if (this.digitalBeepingArray.length > 2) {
+				this.digitalBeepingArray.pop();
+			}
+			if (this.digitalBeepingArray[0] !== this.digitalBeepingArray[1]) {
+				audioSettings.digitalBeeping.play();
+			}
+			this.digitalBeepingFlag = true;
+		}
+		window.addEventListener('keyup', e => {
+			this.digitalBeepingFlag = false;
+		});
+	}
+
 	preventOppositeSide({ key = { lower, upper }, prevent, x, y, side }) {
 		if (
 			(this.snake.lastKey === key.lower && this.sides !== prevent) ||
@@ -58,6 +85,7 @@ export class Move {
 		) {
 			this.apply({ x: x, y: y, side: side });
 			this.sides = side;
+			this.digitalBeepingStatement();
 		} else if (
 			(this.snake.lastKey === key.lower && this.sides == prevent) ||
 			(this.snake.lastKey === key.upper && this.sides == prevent)
@@ -103,6 +131,7 @@ export class Move {
 				})
 			) {
 				this.snake.apple.randomize();
+				audioSettings.eat.play();
 				this.bodyArray = this.snake.snakeCharacter.bodyArray;
 				this.side = this.bodyArray[this.bodyArray.length - 1].side;
 				this.posValues({ side: 'up', posX: 0, posY: 24 });
@@ -150,8 +179,12 @@ export class Move {
 						},
 					})
 				) {
-					this.snake.menuScene === 'startHardSnake' && localStorage.setItem('gameOverHardSnake', 'true');
-					this.snake.menuScene === 'startHardSnake' && this.resetSnakeGameOver();
+					if (this.snake.menuScene === 'startHardSnake') {
+						this.snake.highScoreEasy.digit.highScoreVoiceover = false;
+						this.gameOverAudioPack();
+						localStorage.setItem('gameOverHardSnake', 'true');
+						this.resetSnakeGameOver();
+					}
 				}
 			}
 		}

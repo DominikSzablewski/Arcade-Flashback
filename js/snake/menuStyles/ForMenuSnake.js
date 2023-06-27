@@ -1,7 +1,7 @@
 import { MainAreaSnake } from './MainAreaSnake.js';
 import { HeaderSnake } from './HeaderSnake.js';
 import { CreateButtonSnake } from './CreateButtonSnake.js';
-import { MenuHoverStyle } from '../../main/MenuHoverStyle.js';
+import { MenuHoverStyle } from '../../main/menuStyles/MenuHoverStyle.js';
 
 export class ForMenuSnake {
 	constructor(menu, ctx) {

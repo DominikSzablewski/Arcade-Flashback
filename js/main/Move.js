@@ -1,29 +1,53 @@
 import { detectCollision } from './detectCollision.js';
+import { audioSettings } from './audio.js';
 
 export class Move {
+	constructor() {
+		this.pressed = false;
+		this.wall = false;
+	}
 	animate(timeStamp) {
-		this.characterSetup.delta = timeStamp - this.characterSetup.lastTime;
-		if (this.inputHandler.animationStart) {
-			if (this.characterSetup.delta > 1000 / this.characterSetup.characterFps) {
-				this.spriteSetup.frameX++;
-				if (this.spriteSetup.frameX >= this.spriteSetup.endFrameX) {
-					this.spriteSetup.frameX = this.spriteSetup.firstSpriteFrameX;
+		if (!this.wall) {
+			this.characterSetup.delta = timeStamp - this.characterSetup.lastTime;
+			if (this.inputHandler.animationStart) {
+				if (this.characterSetup.delta > 1000 / this.characterSetup.characterFps) {
+					this.spriteSetup.frameX++;
+					if (this.spriteSetup.frameX >= this.spriteSetup.endFrameX) {
+						this.spriteSetup.frameX = this.spriteSetup.firstSpriteFrameX;
+					}
+					this.characterSetup.lastTime = timeStamp;
 				}
-				this.characterSetup.lastTime = timeStamp;
-			}
-		} else if (!this.inputHandler.animationStart) {
-			if (this.characterSetup.delta > 1000 / this.characterSetup.characterFps) {
-				this.spriteSetup.frameX = this.spriteSetup.frameXTemp;
-				this.characterSetup.lastTime = timeStamp;
+			} else if (!this.inputHandler.animationStart) {
+				if (this.characterSetup.delta > 1000 / this.characterSetup.characterFps) {
+					this.spriteSetup.frameX = this.spriteSetup.frameXTemp;
+					this.characterSetup.lastTime = timeStamp;
+				}
 			}
 		}
 	}
 
 	speed({ x, y }) {
-		for (const el of this.game.forUpdateAxis) {
-			el.position.x += x;
-			el.position.y += y;
+		for (const [index, element] of this.game.forUpdateAxis.entries()) {
+			for (const el of element) {
+				if (index === 0) {
+					el.position.x += x;
+					el.position.y += y;
+				}
+				if (index === 1) {
+					el.characterPosition.x += x;
+					el.characterPosition.y += y;
+					el.collisionPosition.x += x;
+					el.collisionPosition.y += y;
+				}
+			}
 		}
+	}
+
+	collisionFunctionPack() {
+		this.frameXTemp = Number(localStorage.getItem('frameX'));
+		this.spriteSetup.frameX = this.frameXTemp;
+		this.inputHandler.animationStart = false;
+		this.wall = true;
 	}
 
 	move({
@@ -35,27 +59,56 @@ export class Move {
 	}) {
 		if (this.lastKey === key.lowercase || this.lastKey === key.uppercase) {
 			this.animate(timeStamp);
-			for (const el of this.game.forCollision) {
-				if (
-					detectCollision({
-						rect1: {
-							x: collision.x,
-							y: collision.y,
-							width: this.collisionSetup.width,
-							height: this.collisionSetup.height,
-						},
-						rect2: {
-							x: el.position.x,
-							y: el.position.y,
-							width: el.collisionSetup.width,
-							height: el.collisionSetup.height,
-						},
-					})
-				) {
-					this.inputHandler.animationStart = false;
-					break;
+			for (const [index, element] of this.game.forCollision.entries()) {
+				for (const el of element) {
+					if (index === 0) {
+						if (
+							detectCollision({
+								rect1: {
+									x: collision.x,
+									y: collision.y,
+									width: this.collisionSetup.width,
+									height: this.collisionSetup.height,
+								},
+								rect2: {
+									x: el.position.x,
+									y: el.position.y,
+									width: el.collisionSetup.width,
+									height: el.collisionSetup.height,
+								},
+							})
+						) {
+							this.collisionFunctionPack();
+							break;
+						}
+					}
 				}
 			}
+
+			if (this.game.npc.npcCollisionArray.length > 0) {
+				for (const el of this.game.npc.npcCollisionArray) {
+					if (
+						detectCollision({
+							rect1: {
+								x: collision.x,
+								y: collision.y,
+								width: this.collisionSetup.width,
+								height: this.collisionSetup.height,
+							},
+							rect2: {
+								x: el.position.x,
+								y: el.position.y,
+								width: el.collisionSetup.width,
+								height: el.collisionSetup.height,
+							},
+						})
+					) {
+						this.collisionFunctionPack();
+						break;
+					}
+				}
+			}
+
 			if (this.inputHandler.animationStart) {
 				this.playerNumber = Number(localStorage.getItem('playerNumber'));
 				if (this.playerNumber >= 4 && this.playerNumber <= 7) {
@@ -64,6 +117,11 @@ export class Move {
 					this.spriteSetup.frameY = spriteFrameSide.side1;
 				}
 				this.speed({ x: speed.x, y: speed.y });
+				if (!this.pressed) {
+					audioSettings.walking.play();
+					this.pressed = true;
+					this.wall = false;
+				}
 			}
 		}
 	}
@@ -110,6 +168,8 @@ export class Move {
 			timeStamp,
 		});
 		if (!this.inputHandler.animationStart) {
+			this.pressed = false;
+			audioSettings.walking.stop();
 			this.speed({ x: 0, y: 0 });
 		}
 	}

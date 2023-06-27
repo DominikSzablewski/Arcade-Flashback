@@ -13,7 +13,7 @@ export class ForNewGameMain {
 		this.draw(this.ctx);
 	}
 
-	characterDraw(ctx, { firstSpriteFrameX, frameX, frameXTemp, endFrameX, frameY }) {
+	characterDraw({ firstSpriteFrameX, frameX, frameXTemp, endFrameX, frameY }) {
 		if (this.playerNumber >= 4 && this.playerNumber <= 7) {
 			this.offset = {
 				x: 9,
@@ -25,7 +25,7 @@ export class ForNewGameMain {
 				y: -20,
 			};
 		}
-		
+
 		this.character = new Character(this.menu.game, {
 			spriteSetup: {
 				src: 'player',
@@ -56,33 +56,48 @@ export class ForNewGameMain {
 				height: 50,
 			},
 		});
+		localStorage.setItem('firstSpriteFrameX', firstSpriteFrameX);
+		localStorage.setItem('frameX', frameX);
+		localStorage.setItem('frameXTemp', frameXTemp);
+		localStorage.setItem('endFrameX', endFrameX);
+		localStorage.setItem('frameY', frameY);
 	}
 
-	slider(ctx) {
+	updateCharacterSprites() {
+		if (this.menu.game.gameScene === 'prepareToMain') {
+			this.character.spriteSetup.firstSpriteFrameX = Number(localStorage.getItem('firstSpriteFrameX'));
+			this.character.spriteSetup.frameX = Number(localStorage.getItem('frameX'));
+			this.character.spriteSetup.frameXTemp = Number(localStorage.getItem('frameXTemp'));
+			this.character.spriteSetup.endFrameX = Number(localStorage.getItem('endFrameX'));
+			this.character.spriteSetup.frameY = Number(localStorage.getItem('frameY'));
+		}
+	}
+
+	slider() {
 		switch (this.playerNumber) {
 			case 0:
-				this.characterDraw(ctx, { firstSpriteFrameX: 0, frameX: 1, frameXTemp: 1, endFrameX: 3, frameY: 0 });
+				this.characterDraw({ firstSpriteFrameX: 0, frameX: 1, frameXTemp: 1, endFrameX: 3, frameY: 0 });
 				break;
 			case 1:
-				this.characterDraw(ctx, { firstSpriteFrameX: 3, frameX: 4, frameXTemp: 4, endFrameX: 6, frameY: 0 });
+				this.characterDraw({ firstSpriteFrameX: 3, frameX: 4, frameXTemp: 4, endFrameX: 6, frameY: 0 });
 				break;
 			case 2:
-				this.characterDraw(ctx, { firstSpriteFrameX: 6, frameX: 7, frameXTemp: 7, endFrameX: 9, frameY: 0 });
+				this.characterDraw({ firstSpriteFrameX: 6, frameX: 7, frameXTemp: 7, endFrameX: 9, frameY: 0 });
 				break;
 			case 3:
-				this.characterDraw(ctx, { firstSpriteFrameX: 9, frameX: 10, frameXTemp: 10, endFrameX: 12, frameY: 0 });
+				this.characterDraw({ firstSpriteFrameX: 9, frameX: 10, frameXTemp: 10, endFrameX: 12, frameY: 0 });
 				break;
 			case 4:
-				this.characterDraw(ctx, { firstSpriteFrameX: 0, frameX: 1, frameXTemp: 1, endFrameX: 3, frameY: 4 });
+				this.characterDraw({ firstSpriteFrameX: 0, frameX: 1, frameXTemp: 1, endFrameX: 3, frameY: 4 });
 				break;
 			case 5:
-				this.characterDraw(ctx, { firstSpriteFrameX: 3, frameX: 4, frameXTemp: 4, endFrameX: 6, frameY: 4 });
+				this.characterDraw({ firstSpriteFrameX: 3, frameX: 4, frameXTemp: 4, endFrameX: 6, frameY: 4 });
 				break;
 			case 6:
-				this.characterDraw(ctx, { firstSpriteFrameX: 6, frameX: 7, frameXTemp: 7, endFrameX: 9, frameY: 4 });
+				this.characterDraw({ firstSpriteFrameX: 6, frameX: 7, frameXTemp: 7, endFrameX: 9, frameY: 4 });
 				break;
 			case 7:
-				this.characterDraw(ctx, { firstSpriteFrameX: 9, frameX: 10, frameXTemp: 10, endFrameX: 12, frameY: 4 });
+				this.characterDraw({ firstSpriteFrameX: 9, frameX: 10, frameXTemp: 10, endFrameX: 12, frameY: 4 });
 				break;
 		}
 	}
@@ -140,7 +155,7 @@ export class ForNewGameMain {
 		this.mainArea.draw(ctx);
 		this.header.draw(ctx);
 		this.characterBoard.draw(ctx);
-		this.slider(ctx);
+		this.slider();
 		this.character.draw(ctx);
 		this.boardArrowLeft.draw(ctx);
 		this.boardArrowRight.draw(ctx);
