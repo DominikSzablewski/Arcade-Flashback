@@ -90,6 +90,7 @@ export class MouseService {
 					switch (this.menu.scene) {
 						case 'menuSnake':
 						case 'difficultySnake':
+						case 'optionsSnake':
 							area.snake.btn1 && (detectEl = 'btn1');
 							area.snake.btn2 && (detectEl = 'btn2');
 							area.snake.btn3 && (detectEl = 'btn3');
@@ -253,6 +254,8 @@ export class MouseService {
 							case 'menuSnake':
 								area.snake.btn1 && (this.menu.scene = 'boardSnake');
 								area.snake.btn1 && this.selectAudio();
+								area.snake.btn2 && (this.menu.scene = 'optionsSnake');
+								area.snake.btn2 && this.selectAudio();
 								if (area.snake.btn3) {
 									localStorage.setItem('scene', 'main');
 									this.menu.scene = 'menuMain';
@@ -340,6 +343,26 @@ export class MouseService {
 									this.selectAudio();
 								}
 								break;
+							case 'optionsSnake':
+								if (area.snake.btn1) {
+									if (localStorage.getItem('musicOff')) {
+										localStorage.removeItem('musicOff');
+										this.selectAudio();
+									} else {
+										localStorage.setItem('musicOff', true);
+									}
+								}
+								if (area.snake.btn2) {
+									if (localStorage.getItem('sfxOff')) {
+										localStorage.removeItem('sfxOff');
+										this.selectAudio();
+									} else {
+										localStorage.setItem('sfxOff', true);
+									}
+								}
+								area.snake.btn3 && (this.menu.scene = 'menuSnake');
+								area.snake.btn3 && this.selectAudio();
+								break;
 						}
 						break;
 
@@ -389,12 +412,12 @@ export class MouseService {
 
 	sceneWatcher() {
 		this.scene = localStorage.getItem('scene') || 'startingMenu';
-		if (localStorage.getItem('gameOverEasySnake') === 'true') {
+		if (localStorage.getItem('gameOverEasySnake')) {
 			audioSettings.select.volume(1);
 			this.menu.scene = 'gameOverEasySnake';
 			localStorage.removeItem('gameOverEasySnake');
 		}
-		if (localStorage.getItem('gameOverHardSnake') === 'true') {
+		if (localStorage.getItem('gameOverHardSnake')) {
 			audioSettings.select.volume(1);
 			this.menu.scene = 'gameOverHardSnake';
 			localStorage.removeItem('gameOverHardSnake');

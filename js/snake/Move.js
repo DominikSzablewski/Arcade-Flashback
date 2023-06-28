@@ -20,7 +20,7 @@ export class Move {
 				side: 'down',
 			}),
 		];
-		localStorage.setItem('sides', 'true');
+		localStorage.setItem('sides', true);
 	}
 
 	gameOverAudioPack() {
@@ -41,8 +41,8 @@ export class Move {
 			) {
 				el.position.x += 0;
 				el.position.y += 0;
-				this.snake.menuScene === 'startEasySnake' && localStorage.setItem('gameOverEasySnake', 'true');
-				this.snake.menuScene === 'startHardSnake' && localStorage.setItem('gameOverHardSnake', 'true');
+				this.snake.menuScene === 'startEasySnake' && localStorage.setItem('gameOverEasySnake', true);
+				this.snake.menuScene === 'startHardSnake' && localStorage.setItem('gameOverHardSnake', true);
 				this.snake.highScoreEasy.digit.highScoreVoiceover = false;
 				this.gameOverAudioPack();
 				this.resetSnakeGameOver();
@@ -93,7 +93,7 @@ export class Move {
 			this.apply({ x: -x, y: -y, side: prevent });
 		}
 
-		if (localStorage.getItem('sides') === 'true') {
+		if (localStorage.getItem('sides')) {
 			this.sides = null;
 			localStorage.removeItem('sides');
 		}
@@ -182,7 +182,7 @@ export class Move {
 					if (this.snake.menuScene === 'startHardSnake') {
 						this.snake.highScoreEasy.digit.highScoreVoiceover = false;
 						this.gameOverAudioPack();
-						localStorage.setItem('gameOverHardSnake', 'true');
+						localStorage.setItem('gameOverHardSnake', true);
 						this.resetSnakeGameOver();
 					}
 				}

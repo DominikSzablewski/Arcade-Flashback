@@ -34,7 +34,7 @@ export class InputHandler {
 					if (this.game.gameScene === 'main' && !this.game.npc.npcScene) {
 						if (this.game.npc.completedQuest.npcDominik.snake) {
 							if (!localStorage.getItem('boardOfGlory')) {
-								localStorage.setItem('boardOfGlory', 'true');
+								localStorage.setItem('boardOfGlory', true);
 							} else {
 								localStorage.removeItem('boardOfGlory');
 							}

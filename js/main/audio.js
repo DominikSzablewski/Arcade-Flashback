@@ -77,3 +77,37 @@ export const audioSettings = {
 	}),
 };
 
+const musicPack = value => {
+	audioSettings.main.volume(value);
+	audioSettings.snake.volume(value);
+	audioSettings.gameOver.volume(value);
+};
+
+const sfxPack = value => {
+	audioSettings.highScoreVoiceover.volume(value);
+	audioSettings.gameOverVoiceover.volume(value);
+	audioSettings.hit.volume(value);
+	audioSettings.eat.volume(value);
+	audioSettings.digitalBeeping.volume(value);
+	audioSettings.snakeHissing.volume(value);
+	audioSettings.completeQuest.volume(value);
+	audioSettings.newQuest.volume(value);
+	audioSettings.initNpcConversation.volume(value);
+	audioSettings.npcWalking.volume(value);
+	audioSettings.walking.volume(value);
+	audioSettings.start.volume(value);
+	audioSettings.select.volume(value);
+};
+
+export const musicSwitcher = e => {
+	if (localStorage.getItem('musicOff')) {
+		musicPack(0);
+	} else {
+		musicPack(1);
+	}
+	if (localStorage.getItem('sfxOff')) {
+		sfxPack(0);
+	} else {
+		sfxPack(1);
+	}
+};

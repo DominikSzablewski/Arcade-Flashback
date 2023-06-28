@@ -1,4 +1,4 @@
-import { audioSettings } from './main/audio.js';
+import { audioSettings, musicSwitcher } from './main/audio.js';
 import { Background, Foreground } from './main/Background.js';
 import { ForNewGameMain } from './main/menuStyles/ForNewGameMain.js';
 import { TilesForCollision } from './main/TileForCollision.js';
@@ -77,6 +77,7 @@ class Game {
 			this.selected = this.mouseService.menu.selected;
 			this.npcHoverFlag = this.mouseService.npcHoverFlag;
 			this.gameScene = localStorage.getItem('scene') || 'startingMenu';
+			musicSwitcher();
 			this.sceneSwitcher.detect(ctx, timeStamp);
 			this.mouseService.sceneWatcher();
 			this.player.updateCharacterSprites();
@@ -103,9 +104,11 @@ const startGame = e => {
 					switch (gameScene) {
 						case 'startingMenu':
 						case 'main':
+							localStorage.getItem('musicOff') && audioSettings.main.volume(0);
 							audioSettings.main.play();
 							break;
 						case 'snake':
+							localStorage.getItem('musicOff') && audioSettings.snake.volume(0);
 							audioSettings.snake.play();
 							break;
 						default:

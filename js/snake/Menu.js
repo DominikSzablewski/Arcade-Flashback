@@ -4,6 +4,7 @@ import { ForDifficultySnake } from './menuStyles/ForDifficultySnake.js';
 import { ForEasySnake } from './menuStyles/ForEasySnake.js';
 import { ForHardSnake } from './menuStyles/ForHardSnake.js';
 import { ForGameOverSnake } from './menuStyles/ForGameOverSnake.js';
+import { ForOptionsSnake } from './menuStyles/ForOptionsSnake.js';
 export class Menu {
 	constructor(snake) {
 		this.snake = snake;
@@ -50,6 +51,9 @@ export class Menu {
 				break;
 			case 'gameOverHardSnake':
 				this.forGameOver = new ForGameOverSnake(this, ctx);
+				break;
+			case 'optionsSnake':
+				this.forGameOver = new ForOptionsSnake(this, ctx);
 				break;
 		}
 	}
