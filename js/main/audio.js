@@ -50,8 +50,20 @@ export const audioSettings = {
 		src: './src/snake/audio/snakeHissing.mp3',
 		html5: true,
 	}),
-	digitalBeeping: new Howl({
-		src: './src/snake/audio/digitalBeeping.mp3',
+	snakeUp: new Howl({
+		src: './src/snake/audio/snakeUp.mp3',
+		html5: true,
+	}),
+	snakeDown: new Howl({
+		src: './src/snake/audio/snakeDown.mp3',
+		html5: true,
+	}),
+	snakeLeft: new Howl({
+		src: './src/snake/audio/snakeLeft.mp3',
+		html5: true,
+	}),
+	snakeRight: new Howl({
+		src: './src/snake/audio/snakeRight.mp3',
 		html5: true,
 	}),
 	eat: new Howl({
@@ -77,37 +89,40 @@ export const audioSettings = {
 	}),
 };
 
-const musicPack = value => {
-	audioSettings.main.volume(value);
-	audioSettings.snake.volume(value);
-	audioSettings.gameOver.volume(value);
+const musicPack = ({ value1, value2, value3 }) => {
+	audioSettings.main.volume(value1);
+	audioSettings.snake.volume(value2);
+	audioSettings.gameOver.volume(value3);
 };
 
-const sfxPack = value => {
-	audioSettings.highScoreVoiceover.volume(value);
-	audioSettings.gameOverVoiceover.volume(value);
-	audioSettings.hit.volume(value);
-	audioSettings.eat.volume(value);
-	audioSettings.digitalBeeping.volume(value);
-	audioSettings.snakeHissing.volume(value);
-	audioSettings.completeQuest.volume(value);
-	audioSettings.newQuest.volume(value);
-	audioSettings.initNpcConversation.volume(value);
-	audioSettings.npcWalking.volume(value);
-	audioSettings.walking.volume(value);
-	audioSettings.start.volume(value);
-	audioSettings.select.volume(value);
+const sfxPack = ({ value1, value2 }) => {
+	audioSettings.highScoreVoiceover.volume(value1);
+	audioSettings.gameOverVoiceover.volume(value1);
+	audioSettings.hit.volume(value1);
+	audioSettings.eat.volume(value1);
+	audioSettings.snakeUp.volume(value1);
+	audioSettings.snakeDown.volume(value1);
+	audioSettings.snakeLeft.volume(value1);
+	audioSettings.snakeRight.volume(value1);
+	audioSettings.snakeHissing.volume(value1);
+	audioSettings.completeQuest.volume(value2);
+	audioSettings.newQuest.volume(value2);
+	audioSettings.initNpcConversation.volume(value2);
+	audioSettings.npcWalking.volume(value2);
+	audioSettings.walking.volume(value2);
+	audioSettings.start.volume(value1);
+	audioSettings.select.volume(value1);
 };
 
 export const musicSwitcher = e => {
 	if (localStorage.getItem('musicOff')) {
-		musicPack(0);
+		musicPack({ value1: 0, value2: 0, value3: 0 });
 	} else {
-		musicPack(1);
+		musicPack({ value1: 0.7, value2: 0.3, value3: 1 });
 	}
 	if (localStorage.getItem('sfxOff')) {
-		sfxPack(0);
+		sfxPack({ value1: 0, value2: 0 });
 	} else {
-		sfxPack(1);
+		sfxPack({ value1: 1, value2: 0.5 });
 	}
 };

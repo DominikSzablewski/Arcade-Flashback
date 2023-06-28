@@ -117,3 +117,27 @@ export class Text {
 		ctx.shadowOffsetY = 0;
 	}
 }
+
+export class TextBasicSetup {
+	constructor(game) {
+		this.game = game;
+	}
+	text({
+		setup = { nr, x, y },
+		font = { size: '27.5px', color: '255, 220, 40, 1.0', shadowColor: '255, 0, 0, 1.0', shadowX: 1.5, shadowY: 1 },
+		text,
+	}) {
+		this[setup.nr] = new Text({
+			words: text,
+			position: {
+				x: this.game.canvas.width / 2,
+				y: this.game.canvas.height / 2,
+			},
+			offsetPosition: { x: setup.x, y: setup.y },
+			font: { size: `${font.size}`, color: `rgba(${font.color})` },
+			shadow: { color: `rgba(${font.shadowColor})`, blur: 3.5, OffsetX: font.shadowX, OffsetY: font.shadowY },
+			letterSpacing: 1,
+			wordSpacing: 5,
+		});
+	}
+}

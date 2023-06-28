@@ -1,5 +1,5 @@
 import { Character } from '../Character.js';
-import { Text } from '../Text.js';
+import { TextBasicSetup } from '../Text.js';
 import { TileForCollision } from '../TileForCollision.js';
 import { audioSettings } from '../audio.js';
 import { NpcHoverStyle } from '../menuStyles/NpcHoverStyle.js';
@@ -77,6 +77,7 @@ export class Npc {
 			},
 		});
 		this.npcHoverStyle = new NpcHoverStyle(this);
+		this.textBasicSetup = new TextBasicSetup(this.game);
 	}
 
 	createNpcCollisionArray(conversation) {
@@ -99,25 +100,6 @@ export class Npc {
 	initAreaForPlayerFreeze(ctx) {
 		this.createNpcCollisionArray(this.npcConversation);
 		this.drawCollisionArea(ctx);
-	}
-
-	npcText({
-		setup = { nr, x, y },
-		font = { size: '27.5px', color: '255, 220, 40, 1.0', shadowColor: '255, 0, 0, 1.0', shadowX: 1.5, shadowY: 1 },
-		text,
-	}) {
-		this[setup.nr] = new Text({
-			words: [text],
-			position: {
-				x: this.game.canvas.width / 2,
-				y: this.game.canvas.height / 2,
-			},
-			offsetPosition: { x: setup.x, y: setup.y },
-			font: { size: `${font.size}`, color: `rgba(${font.color})` },
-			shadow: { color: `rgba(${font.shadowColor})`, blur: 3.5, OffsetX: font.shadowX, OffsetY: font.shadowY },
-			letterSpacing: 1,
-			wordSpacing: 5,
-		});
 	}
 
 	npcInitWithMoves({ movesCount, frameY, characterPositionX, collisionPositionX }) {
@@ -208,19 +190,19 @@ export class Npc {
 	}
 
 	drawNpcNameHeader(ctx, { name, font = { size, x, y } }) {
-		this.npcText({
+		this.textBasicSetup.text({
 			setup: { nr: 'npcName', x: font.x, y: font.y },
 			font: { size: `${font.size}`, shadowX: 3, shadowY: 2 },
-			text: `${name}`,
+			text: [`${[name]}`],
 		});
-		this.npcName.draw(ctx);
+		this.textBasicSetup.npcName.draw(ctx);
 	}
 
 	drawQuestHeader(ctx) {
-		this.npcText({
-			setup: { nr: 'questHeader', x: -425, y: 145 },
+		this.textBasicSetup.text({
+			setup: { nr: ['questHeader'], x: -425, y: 145 },
 			font: { size: '55px', shadowX: 3, shadowY: 2 },
-			text: 'Quest',
+			text: [`Quest`],
 		});
 		this.questHeader.draw(ctx);
 	}
@@ -230,11 +212,11 @@ export class Npc {
 		{ npc = { name }, flag = { t1: false, t2: false, t3: false, t4: false, t5: false, npc: false, quest: false } }
 	) {
 		this.npcHoverStyle.draw(ctx);
-		flag.t1 && this.text1.draw(ctx);
-		flag.t2 && this.text2.draw(ctx);
-		flag.t3 && this.text3.draw(ctx);
-		flag.t4 && this.text4.draw(ctx);
-		flag.t5 && this.text5.draw(ctx);
+		flag.t1 && this.textBasicSetup.text1.draw(ctx);
+		flag.t2 && this.textBasicSetup.text2.draw(ctx);
+		flag.t3 && this.textBasicSetup.text3.draw(ctx);
+		flag.t4 && this.textBasicSetup.text4.draw(ctx);
+		flag.t5 && this.textBasicSetup.text5.draw(ctx);
 		flag.npc && this.drawNpcNameHeader(ctx, { name: `${npc.name}`, font: { size: '55px', x: -454, y: 145 } });
 		flag.quest && this.drawQuestHeader(ctx);
 	}
@@ -246,122 +228,122 @@ export class Npc {
 					case 1:
 						switch (this.dialogueNumber) {
 							case 1:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "Hello, I'm glad you're here. This is my home, you can call it",
+									text: ["Hello, I'm glad you're here. This is my home, you can call it"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: 'Arcade Flashback. It took me a while to settle in here. I still',
+									text: ['Arcade Flashback. It took me a while to settle in here. I still'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: "have renovations going on in the arcade room, but I'm optimistic",
+									text: ["have renovations going on in the arcade room, but I'm optimistic"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: 'because I know that everything will be done soon. The Celtic',
+									text: ['because I know that everything will be done soon. The Celtic'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text5', x: -450, y: 370 },
-									text: "oracle told me so, and if that's what she said, then it shall be.",
+									text: ["oracle told me so, and if that's what she said, then it shall be."],
 								});
 								break;
 							case 2:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: 'The technologies used to create this world are HTML, SCSS, and',
+									text: ['The technologies used to create this world are HTML, SCSS, and'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: "JavaScript. I didn't use any frameworks. I wanted to make this",
+									text: ["JavaScript. I didn't use any frameworks. I wanted to make this"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: "game in Vanilla JavaScript. You know what, I won't bore you with",
+									text: ["game in Vanilla JavaScript. You know what, I won't bore you with"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: 'those details here. You can find out everything in the technical',
+									text: ['those details here. You can find out everything in the technical'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text5', x: -450, y: 370 },
-									text: 'documentation of this game.',
+									text: ['documentation of this game.'],
 								});
 								break;
 							case 3:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "Now let's move on to what everyone loves... playing games. First,",
+									text: ["Now let's move on to what everyone loves... playing games. First,"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: 'I have a quest for you. Beat my high scores in the game Snake.',
+									text: ['I have a quest for you. Beat my high scores in the game Snake.'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: "You'll find the arcade machine with this game in the arcade room.",
+									text: ["You'll find the arcade machine with this game in the arcade room."],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: "You need to go up, then left, and up again. You'll surely find it.",
+									text: ["You need to go up, then left, and up again. You'll surely find it."],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text5', x: -450, y: 370 },
-									text: "I'm a master at both levels - easy and hard ones.",
+									text: ["I'm a master at both levels - easy and hard ones."],
 								});
 								break;
 							case 4:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "There's no chance you'll defeat me. Well, unless you put some",
+									text: ["There's no chance you'll defeat me. Well, unless you put some"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: "effort in. Just remember, don't attempt any tricks. Modifying the",
+									text: ["effort in. Just remember, don't attempt any tricks. Modifying the"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: "code is a blasphemy. Gods won't forgive you, or maybe they will,",
+									text: ["code is a blasphemy. Gods won't forgive you, or maybe they will,"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: "but cheating will make me sad. So don't do it!",
+									text: ["but cheating will make me sad. So don't do it!"],
 								});
 								break;
 							case 5:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: 'If you manage to defeat me and would like to claim the rewards',
+									text: ['If you manage to defeat me and would like to claim the rewards'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: "for completing the quest, I'll be in the kitchen. I've gotten quite",
+									text: ["for completing the quest, I'll be in the kitchen. I've gotten quite"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: 'hungry from all this talking and need to grab a bite. Remember,',
+									text: ['hungry from all this talking and need to grab a bite. Remember,'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: "if you don't want me to laugh at you for being worse at gaming,",
+									text: ["if you don't want me to laugh at you for being worse at gaming,"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text5', x: -450, y: 370 },
-									text: "then don't approach me until you've actually defeated me.",
+									text: ["then don't approach me until you've actually defeated me."],
 								});
 								break;
 							case 6:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: 'See you later!',
+									text: ['See you later!'],
 								});
 								this.dialogueFlag = false;
 								break;
 							case 7:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "Beat Dominik's scores in the game Snake.",
+									text: ["Beat Dominik's scores in the game Snake."],
 								});
 								this.initSound({ npcScene: 'npcDominik', conversation: 1, sound: 4, audio: 'newQuest' });
 								this.questTextFlag = true;
@@ -400,21 +382,21 @@ export class Npc {
 					case 2:
 						switch (this.dialogueNumber) {
 							case 1:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "I see that you haven't beaten my scores in the Snake game yet.",
+									text: ["I see that you haven't beaten my scores in the Snake game yet."],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: "Hahaha. I knew I was a master and that defeating me wouldn't be ",
+									text: ["Hahaha. I knew I was a master and that defeating me wouldn't be"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: 'as easy as you might have thought. Come back when you manage',
+									text: ['as easy as you might have thought. Come back when you manage'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: 'to defeat me.',
+									text: ['to defeat me.'],
 								});
 								this.drawConversation(ctx, {
 									npc: { name: 'Dominik' },
@@ -426,21 +408,21 @@ export class Npc {
 					case 3:
 						switch (this.dialogueNumber) {
 							case 1:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "Still haven't beaten me??? I am a player, and with players like",
+									text: ["Still haven't beaten me??? I am a player, and with players like"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: "me, you won't win. My score is as distant for you as the distance",
+									text: ["me, you won't win. My score is as distant for you as the distance"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: "from Earth to the Sun. It won't be that easy for you. Come back",
+									text: ["from Earth to the Sun. It won't be that easy for you. Come back"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: 'when you defeat me.',
+									text: ['when you defeat me.'],
 								});
 								this.drawConversation(ctx, {
 									npc: { name: 'Dominik' },
@@ -452,17 +434,17 @@ export class Npc {
 					case 4:
 						switch (this.dialogueNumber) {
 							case 1:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "Wow, I can't believe it. It's impossible! You managed to defeat me.",
+									text: ["Wow, I can't believe it. It's impossible! You managed to defeat me."],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: "I don't know how you did it, but according to our agreement, you ",
+									text: ["I don't know how you did it, but according to our agreement, you"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: 'deserve a reward.',
+									text: ['deserve a reward.'],
 								});
 								this.drawConversation(ctx, {
 									npc: { name: 'Dominik' },
@@ -470,25 +452,25 @@ export class Npc {
 								});
 								break;
 							case 2:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: 'You receive a badge as proof that you are a legendary master of',
+									text: ['You receive a badge as proof that you are a legendary master of'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: "the Snake game. From now on, you've access to the Board of Glory.",
+									text: ["the Snake game. From now on, you've access to the Board of Glory."],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: 'To enter, press the letter "B" on your keyboard. Remember, you can',
+									text: ['To enter, press the letter "B" on your keyboard. Remember, you can'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: 'only enter if you are not playing in arcade and if you are not',
+									text: ['only enter if you are not playing in arcade and if you are not'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text5', x: -450, y: 370 },
-									text: 'interacting with NPCs.',
+									text: ['interacting with NPCs.'],
 								});
 								this.initSound({ npcScene: 'npcDominik', conversation: 4, sound: 2, audio: 'completeQuest' });
 								this.drawConversation(ctx, {
@@ -496,21 +478,21 @@ export class Npc {
 								});
 								break;
 							case 3:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: 'Soon, new challenges await you, and you will have the opportunity',
+									text: ['Soon, new challenges await you, and you will have the opportunity'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: 'to engrave your name in the Hall of Fame. The road ahead of you is ',
+									text: ['to engrave your name in the Hall of Fame. The road ahead of you is '],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text3', x: -450, y: 290 },
-									text: 'challenging, to get there you will have to earn all the badges. ',
+									text: ['challenging, to get there you will have to earn all the badges.'],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text4', x: -450, y: 330 },
-									text: 'Only a full Board of Glory grants you access to the Hall of Fame!',
+									text: ['Only a full Board of Glory grants you access to the Hall of Fame!'],
 								});
 
 								this.drawConversation(ctx, {
@@ -529,13 +511,13 @@ export class Npc {
 					case 5:
 						switch (this.dialogueNumber) {
 							case 1:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "Soon, I'll have new challenges for you, and I promise it won't be as",
+									text: ["Soon, I'll have new challenges for you, and I promise it won't be as"],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: "easy as before. This time, you will fall, and I'll come out on top!",
+									text: ["easy as before. This time, you will fall, and I'll come out on top!"],
 								});
 
 								this.drawConversation(ctx, {
@@ -548,13 +530,13 @@ export class Npc {
 					case 6:
 						switch (this.dialogueNumber) {
 							case 1:
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text1', x: -450, y: 210 },
-									text: "Hi, unfortunately, I don't have any challenges for you right now.",
+									text: ["Hi, unfortunately, I don't have any challenges for you right now."],
 								});
-								this.npcText({
+								this.textBasicSetup.text({
 									setup: { nr: 'text2', x: -450, y: 250 },
-									text: 'Come back in a while.',
+									text: ['Come back in a while.'],
 								});
 
 								this.drawConversation(ctx, {

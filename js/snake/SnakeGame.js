@@ -18,12 +18,12 @@ export class SnakeGame {
 		};
 
 		this.drawFpsSetup = {
-			drawFps: 15,
+			drawFps: 30,
 			delta: 0,
 			lastTime: 0,
 		};
 		this.snakeFpsSetup = {
-			snakeFps: 7,
+			snakeFps: 12,
 			delta: 0,
 			lastTime: 0,
 		};

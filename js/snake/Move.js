@@ -5,8 +5,8 @@ export class Move {
 	constructor(snake) {
 		this.snake = snake;
 		this.sides = null;
-		this.digitalBeepingFlag = false;
-		this.digitalBeepingArray = [null];
+		this.snakeMovesSfxFlag = false;
+		this.snakeMovesSfxArray = [null];
 	}
 
 	resetSnakeGameOver() {
@@ -62,19 +62,44 @@ export class Move {
 		}
 	}
 
-	digitalBeepingStatement() {
-		if (!this.digitalBeepingFlag) {
-			this.digitalBeepingArray.unshift(this.snake.lastKey);
-			if (this.digitalBeepingArray.length > 2) {
-				this.digitalBeepingArray.pop();
+	snakeMovesSfxStatement(prevent) {
+		if (!this.snakeMovesSfxFlag) {
+			this.snakeMovesSfxArray.unshift(this.snake.lastKey);
+			if (this.snakeMovesSfxArray.length > 2) {
+				this.snakeMovesSfxArray.pop();
 			}
-			if (this.digitalBeepingArray[0] !== this.digitalBeepingArray[1]) {
-				audioSettings.digitalBeeping.play();
+			if (this.snakeMovesSfxArray[0] !== this.snakeMovesSfxArray[1]) {
+				if (
+					(this.snake.lastKey === 'w' && this.sides !== prevent) ||
+					(this.snake.lastKey === 'W' && this.sides !== prevent)
+				) {
+					audioSettings.snakeUp.play();
+				}
+				if (
+					(this.snake.lastKey === 's' && this.sides !== prevent) ||
+					(this.snake.lastKey === 'S' && this.sides !== prevent)
+				) {
+					audioSettings.snakeDown.play();
+				}
+				if (
+					(this.snake.lastKey === 'a' && this.sides !== prevent) ||
+					(this.snake.lastKey === 'A' && this.sides !== prevent)
+				) {
+					audioSettings.snakeLeft.play();
+				}
+				if (
+					(this.snake.lastKey === 'd' && this.sides !== prevent) ||
+					(this.snake.lastKey === 'D' && this.sides !== prevent)
+				) {
+					audioSettings.snakeRight.play();
+				}
 			}
-			this.digitalBeepingFlag = true;
+			//
+			this.snakeMovesSfxFlag = true;
 		}
+
 		window.addEventListener('keyup', e => {
-			this.digitalBeepingFlag = false;
+			this.snakeMovesSfxFlag = false;
 		});
 	}
 
@@ -85,7 +110,7 @@ export class Move {
 		) {
 			this.apply({ x: x, y: y, side: side });
 			this.sides = side;
-			this.digitalBeepingStatement();
+			this.snakeMovesSfxStatement(prevent);
 		} else if (
 			(this.snake.lastKey === key.lower && this.sides == prevent) ||
 			(this.snake.lastKey === key.upper && this.sides == prevent)
