@@ -50,9 +50,9 @@ https://arcade-flashback.netlify.app/
 
 - To start playing on the arcade, you need to have your character stand on it.
 
-#### Why am I unable to access the main menu while having conversations with NPCs or playing the arcade game?
+#### Why am I unable to access the main menu while having conversations with NPCs, playing the arcade game, or viewing the glory board?
 
-- Restricting access to the main menu during NPC conversations and arcade gameplay is a deliberate design choice aimed at enhancing immersion and gameplay fluidity. By maintaining the continuity of interactions, the game ensures that players remain fully engaged in conversations and arcade action, without distracting menu navigation elements. This allows for a focused experience on the narrative and gameplay, creating a deeper and more immersive gaming experience.
+- Restricting access to the main menu during NPC conversations, arcade gameplay, and when the glory board is displayed, is a deliberate design choice aimed at enhancing immersion and gameplay fluidity. By maintaining the continuity of interactions, the game ensures that players remain fully engaged in conversations and arcade action, without distracting menu navigation elements. This allows for a focused experience on the narrative and gameplay, creating a deeper and more immersive gaming experience.
 
 #### How to activate the Dev Mode and what does it do?
 
