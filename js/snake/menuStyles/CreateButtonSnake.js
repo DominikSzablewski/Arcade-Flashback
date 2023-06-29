@@ -8,7 +8,7 @@ export class CreateButtonSnake {
 		this.word = word;
 		this.textOffset = textOffset;
 		this.image = new Image({
-			src: { id: 'menu-areaSnake__button' },
+			src: { id: 'menuAreaSnakeButton' },
 			size: { width: 553, height: 169 },
 			offsetSize: { x: 30, y: 5 },
 			position: {

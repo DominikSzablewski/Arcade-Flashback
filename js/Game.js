@@ -84,7 +84,6 @@ class Game {
 			this.npc.npcInit(ctx, timeStamp);
 			this.gloryBoard.draw(ctx);
 			this.gameSetup.lastTime = timeStamp;
-			console.log(this.menuSceneEl);
 		}
 	}
 }

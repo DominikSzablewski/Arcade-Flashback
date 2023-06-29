@@ -3,7 +3,7 @@ export class MainArea {
 	constructor(menuElement) {
 		this.menuElement = menuElement;
 		this.mainArea = new Image({
-			src: { id: 'menu-areaMain' },
+			src: { id: 'menuAreaMain' },
 			size: { width: 1900, height: 1574 },
 			offsetSize: { x: 0, y: 60 },
 			position: {

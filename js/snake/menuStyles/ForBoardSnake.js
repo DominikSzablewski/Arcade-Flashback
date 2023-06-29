@@ -24,7 +24,7 @@ export class ForBoardSnake {
 			textOffset: { x: -90, y: 183 },
 		});
 		this.board1 = new Image({
-			src: { id: 'menu-areaSnake__button' },
+			src: { id: 'menuAreaSnakeButton' },
 			size: { width: 553, height: 169 },
 			offsetSize: { x: -135, y: 15 },
 			position: {
@@ -36,7 +36,7 @@ export class ForBoardSnake {
 			edit: { resize: 0.4 },
 		});
 		this.board2 = new Image({
-			src: { id: 'menu-areaSnake__button' },
+			src: { id: 'menuAreaSnakeButton' },
 			size: { width: 553, height: 169 },
 			offsetSize: { x: -135, y: 15 },
 			position: {

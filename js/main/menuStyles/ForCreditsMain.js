@@ -11,7 +11,6 @@ export class ForCreditsMain {
 		this.ctx = ctx;
 		this.menuHoverStyle = new MenuHoverStyle(this, this.menu.game.menuSceneEl, { color: 'rgba(255, 73, 246, 1)' });
 		this.textBasicSetup = new TextBasicSetup(this.menu.game);
-
 		this.draw(this.ctx);
 	}
 	styles() {
@@ -72,4 +71,3 @@ export class ForCreditsMain {
 		});
 	}
 }
-

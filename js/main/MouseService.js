@@ -267,6 +267,7 @@ export class MouseService {
 									} else {
 										localStorage.setItem('musicOff', true);
 									}
+									this.clickFlag = true;
 								}
 								if (area.mainStart.btn2) {
 									if (localStorage.getItem('sfxOff')) {
@@ -275,6 +276,7 @@ export class MouseService {
 									} else {
 										localStorage.setItem('sfxOff', true);
 									}
+									this.clickFlag = true;
 								}
 								area.mainStart.btn3 && (this.menu.scene = 'menuMain');
 								area.mainStart.btn3 && this.selectAudio();
@@ -387,6 +389,7 @@ export class MouseService {
 									} else {
 										localStorage.setItem('musicOff', true);
 									}
+									this.clickFlag = true;
 								}
 								if (area.snake.btn2) {
 									if (localStorage.getItem('sfxOff')) {
@@ -395,6 +398,7 @@ export class MouseService {
 									} else {
 										localStorage.setItem('sfxOff', true);
 									}
+									this.clickFlag = true;
 								}
 								area.snake.btn3 && (this.menu.scene = 'menuSnake');
 								area.snake.btn3 && this.selectAudio();

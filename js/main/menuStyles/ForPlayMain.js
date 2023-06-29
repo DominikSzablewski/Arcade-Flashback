@@ -109,7 +109,7 @@ export class ForPlayMain {
 		this.mainArea = new MainArea(this);
 		this.header = new Header(this, { words: ['Character'], x: -165 });
 		this.characterBoard = new Image({
-			src: { id: 'menu-areaBoard' },
+			src: { id: 'menuAreaBoard' },
 			size: { width: 1000, height: 828 },
 			offsetSize: { x: 0, y: -40 },
 			position: {
@@ -121,7 +121,7 @@ export class ForPlayMain {
 			edit: { resize: 0.55 },
 		});
 		this.boardArrowLeft = new Image({
-			src: { id: 'menu-areaMain__arrowLeft' },
+			src: { id: 'menuAreaMainArrowLeft' },
 			size: { width: 500, height: 414 },
 			offsetSize: { x: 0, y: 0 },
 			position: {
@@ -134,10 +134,10 @@ export class ForPlayMain {
 		});
 		this.menu.game.menuSceneEl === 'arrowLeft'
 			? (this.boardArrowLeft.image.src = '/src/main/images/MenuAreaArrowLeftHover.png')
-			: (this.boardArrowLeft.image.src = '/src/main/images/menu-area__arrowLeft.png');
+			: (this.boardArrowLeft.image.src = '/src/main/images/menuAreaArrowLeft.png');
 
 		this.boardArrowRight = new Image({
-			src: { id: 'menu-areaMain__arrowRight' },
+			src: { id: 'menuAreaMainArrowRight' },
 			size: { width: 500, height: 414 },
 			offsetSize: { x: 0, y: 0 },
 			position: {
@@ -150,7 +150,7 @@ export class ForPlayMain {
 		});
 		this.menu.game.menuSceneEl === 'arrowRight'
 			? (this.boardArrowRight.image.src = '/src/main/images/MenuAreaArrowRightHover.png')
-			: (this.boardArrowRight.image.src = 'src/main/images/menu-area__arrowRight.png');
+			: (this.boardArrowRight.image.src = 'src/main/images/menuAreaArrowRight.png');
 		this.btn3 = new CreateButton(this, {
 			offset: { x: 0, y: 198 },
 			word: ['Start'],

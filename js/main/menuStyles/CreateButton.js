@@ -8,7 +8,7 @@ export class CreateButton {
 		this.word = word;
 		this.textOffset = textOffset;
 		this.image = new Image({
-			src: { id: 'menu-areaMain__button' },
+			src: { id: 'menuAreaMainButton' },
 			size: { width: 500, height: 414 },
 			offsetSize: { x: 0, y: 0 },
 			position: {

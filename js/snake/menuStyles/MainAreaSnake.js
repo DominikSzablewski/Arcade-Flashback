@@ -3,7 +3,7 @@ export class MainAreaSnake {
 	constructor(menuElement) {
 		this.menuElement = menuElement;
 		this.mainArea = new Image({
-			src: { id: 'menu-areaSnake' },
+			src: { id: 'menuAreaSnake' },
 			size: { width: 1152, height: 1491 },
 			offsetSize: { x: 30, y: 3 },
 			position: {

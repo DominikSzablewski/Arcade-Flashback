@@ -4,7 +4,7 @@ export class Background {
 	constructor(game) {
 		this.game = game;
 		this.image = new Image({
-			src: { id: 'background_1' },
+			src: { id: 'gameMap' },
 			size: { width: 7680, height: 7680 },
 			offsetSize: { x: 0, y: 0 },
 			position: { x: this.game.gameSetup.position.x, y: this.game.gameSetup.position.y },

@@ -8,7 +8,7 @@ export class HeaderSnake {
 		this.fontSize = fontSize;
 		this.wordSpacing = wordSpacing;
 		this.header = new Image({
-			src: { id: 'menu-areaSnake__header' },
+			src: { id: 'menuAreaSnakeHeader' },
 			size: { width: 1068, height: 589 },
 			offsetSize: { x: 25, y: -25 },
 			position: {
