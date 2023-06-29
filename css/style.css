@@ -89,6 +89,9 @@ body {
 }
 
 @media (max-width: 1024px) {
+  #canvas1 {
+    display: none;
+  }
   .start-container {
     display: none;
   }
