@@ -6,7 +6,7 @@ https://arcade-flashback.netlify.app/
 
 Arcade Flashback is an immersive gaming experience that allows you to relive the nostalgia of classic arcade games while embarking on exciting new adventures. Dive into a vibrant game world filled with vibrant visuals and captivating gameplay. Challenge yourself to master the refreshed versions of beloved arcade games and unlock hidden secrets along the way. Immerse yourself in the thrill of Arcade Flashback and let the arcade spirit ignite your gaming passion.
 
-The project was developed using JavaScript, SCSS, and HTML. In JavaScript, modules were utilized to organize and structure the code, following object-oriented programming principles to create reusable and modular code components. For audio handling, Howler.js, a JavaScript audio library, was employed to provide a straightforward and efficient way to work with sounds in the game.
+The project was developed using JavaScript, SCSS, and HTML. In JavaScript, modules were utilized to organize and structure the code, following object-oriented programming principles to create reusable and modular code components. For audio handling, Howler.js, a JavaScript audio library, was employed to provide a straightforward and efficient way to work with sounds in the game. Additionally, for creating the game map, the Tiled Map Editor was used. 
 
 ## Functionality Overview
 
