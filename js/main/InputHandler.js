@@ -22,7 +22,7 @@ export class InputHandler {
 				this.animationStart = true;
 				this.receiver.lastKey = e.key;
 			}
-			if (e.key === 'Escape') {
+			if (e.key === 'Escape' && !localStorage.getItem('boardOfGlory')) {
 				if (this.game) {
 					if (this.game.gameScene === 'main' && !this.game.npc.npcScene) {
 						this.menuMain = true;
