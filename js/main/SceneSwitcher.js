@@ -45,7 +45,7 @@ export class SceneSwitcher {
 	beatScoresSnakeQuest() {
 		const highScoreSnakeEasy = Number(localStorage.getItem('highScoreSnakeEasy'));
 		const highScoreSnakeHard = Number(localStorage.getItem('highScoreSnakeHard'));
-		if (highScoreSnakeEasy > 2 && highScoreSnakeHard > 2 && !this.game.npc.completedQuest.npcDominik.snake) {
+		if (highScoreSnakeEasy > 15 && highScoreSnakeHard > 15 && !this.game.npc.completedQuest.npcDominik.snake) {
 			localStorage.setItem('npcConversation', 4);
 			this.game.npc.npcConversation = 4;
 		}

@@ -23,7 +23,7 @@ export class Text {
 		this.highScore = highScore;
 		this.scorePoints = 0;
 		this.scoreFor = scoreFor;
-		this.highScorePoints = localStorage.getItem(`highScore${this.scoreFor}`) || 2;
+		this.highScorePoints = localStorage.getItem(`highScore${this.scoreFor}`) || 15;
 		this.highScoreVoiceover = false;
 		this.countScore();
 	}
