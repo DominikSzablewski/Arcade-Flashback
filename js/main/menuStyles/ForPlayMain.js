@@ -4,12 +4,14 @@ import { Header } from './Header.js';
 import { CreateButton } from './CreateButton.js';
 import { Image } from '../Image.js';
 import { Character } from '../Character.js';
+import { MenuHoverStyle } from './MenuHoverStyle.js';
 
-export class ForNewGameMain {
+export class ForPlayMain {
 	constructor(menu, ctx) {
 		this.menu = menu;
 		this.ctx = ctx;
 		this.playerNumber = Number(localStorage.getItem('playerNumber'));
+		this.menuHoverStyle = new MenuHoverStyle(this, this.menu.game.menuSceneEl, { color: 'rgba(255, 73, 246, 1)' });
 		this.draw(this.ctx);
 	}
 
@@ -102,7 +104,7 @@ export class ForNewGameMain {
 		}
 	}
 
-	styles() {
+	styles(ctx) {
 		this.background = new MenuBackgroundMain();
 		this.mainArea = new MainArea(this);
 		this.header = new Header(this, { words: ['Character'], x: -165 });
@@ -130,6 +132,10 @@ export class ForNewGameMain {
 			positionOnImage: { x: 0, y: 0 },
 			edit: { resize: 0.3 },
 		});
+		this.menu.game.menuSceneEl === 'arrowLeft'
+			? (this.boardArrowLeft.image.src = '/src/main/images/MenuAreaArrowLeftHover.png')
+			: (this.boardArrowLeft.image.src = '/src/main/images/menu-area__arrowLeft.png');
+
 		this.boardArrowRight = new Image({
 			src: { id: 'menu-areaMain__arrowRight' },
 			size: { width: 500, height: 414 },
@@ -142,6 +148,9 @@ export class ForNewGameMain {
 			positionOnImage: { x: 0, y: 0 },
 			edit: { resize: 0.3 },
 		});
+		this.menu.game.menuSceneEl === 'arrowRight'
+			? (this.boardArrowRight.image.src = '/src/main/images/MenuAreaArrowRightHover.png')
+			: (this.boardArrowRight.image.src = 'src/main/images/menu-area__arrowRight.png');
 		this.btn3 = new CreateButton(this, {
 			offset: { x: 0, y: 198 },
 			word: ['Start'],
@@ -160,5 +169,8 @@ export class ForNewGameMain {
 		this.boardArrowLeft.draw(ctx);
 		this.boardArrowRight.draw(ctx);
 		this.btn3.draw(ctx);
+		this.menuHoverStyle.draw(ctx, {
+			btn3: { x: 5, flag: true },
+		});
 	}
 }

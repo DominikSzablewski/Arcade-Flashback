@@ -1,5 +1,7 @@
 import { ForMenuMain } from '../main/menuStyles/ForMenuMain.js';
-import { ForNewGameMain } from './menuStyles/ForNewGameMain.js';
+import { ForPlayMain } from './menuStyles/ForPlayMain.js';
+import { ForOptionsMain } from './menuStyles/ForOptionsMain.js';
+import { ForCreditsMain } from './menuStyles/ForCreditsMain.js';
 
 export class Menu {
 	constructor(game) {
@@ -11,8 +13,14 @@ export class Menu {
 			case 'menuMain':
 				this.forMenu = new ForMenuMain(this, ctx);
 				break;
-			case 'newGameMain':
-				this.forNewGame = new ForNewGameMain(this, ctx);
+			case 'playMain':
+				this.forPlay = new ForPlayMain(this, ctx);
+				break;
+			case 'optionsMain':
+				this.forOptionsMain = new ForOptionsMain(this, ctx);
+				break;
+			case 'creditsMain':
+				this.forOptionsMain = new ForCreditsMain(this, ctx);
 				break;
 		}
 	}

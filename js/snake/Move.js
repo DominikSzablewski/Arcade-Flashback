@@ -94,7 +94,6 @@ export class Move {
 					audioSettings.snakeRight.play();
 				}
 			}
-			//
 			this.snakeMovesSfxFlag = true;
 		}
 

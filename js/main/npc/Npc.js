@@ -2,7 +2,7 @@ import { Character } from '../Character.js';
 import { TextBasicSetup } from '../Text.js';
 import { TileForCollision } from '../TileForCollision.js';
 import { audioSettings } from '../audio.js';
-import { NpcHoverStyle } from '../menuStyles/NpcHoverStyle.js';
+import { NpcHoverStyle } from './NpcHoverStyle.js';
 
 export class Npc {
 	constructor(game, { firstSpriteFrameX, frameX, frameXTemp, endFrameX, frameY, position = { x, y } }) {
@@ -204,7 +204,7 @@ export class Npc {
 			font: { size: '55px', shadowX: 3, shadowY: 2 },
 			text: [`Quest`],
 		});
-		this.questHeader.draw(ctx);
+		this.textBasicSetup.questHeader.draw(ctx);
 	}
 
 	drawConversation(

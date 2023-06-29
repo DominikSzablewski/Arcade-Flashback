@@ -1,8 +1,8 @@
 export class MenuHoverStyle {
-	constructor(menuElement, { color }) {
+	constructor(menuElement, menuSceneEl, { color }) {
 		this.menuElement = menuElement;
+		this.menuSceneEl = menuSceneEl;
 		this.color = color;
-		this.menuSceneEl = this.menuElement.menu.snake.game.menuSceneEl;
 	}
 	draw(ctx, { btn1 = { x: 0, flag: false }, btn2 = { x: 0, flag: false }, btn3 = { x: 0, flag: false } }) {
 		this.style = (ctx, el) => {

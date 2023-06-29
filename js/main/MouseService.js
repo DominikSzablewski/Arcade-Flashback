@@ -78,9 +78,17 @@ export class MouseService {
 							area.mainStart.btn2 && (detectEl = 'btn2');
 							area.mainStart.btn3 && (detectEl = 'btn3');
 							break;
-						case 'newGameMain':
+						case 'playMain':
 							area.mainStart.arrowLeft && (detectEl = 'arrowLeft');
 							area.mainStart.arrowRight && (detectEl = 'arrowRight');
+							area.mainStart.btn3 && (detectEl = 'btn3');
+							break;
+						case 'optionsMain':
+							area.mainStart.btn1 && (detectEl = 'btn1');
+							area.mainStart.btn2 && (detectEl = 'btn2');
+							area.mainStart.btn3 && (detectEl = 'btn3');
+							break;
+						case 'creditsMain':
 							area.mainStart.btn3 && (detectEl = 'btn3');
 							break;
 					}
@@ -229,11 +237,15 @@ export class MouseService {
 					case 'startingMenu':
 						switch (this.menu.scene) {
 							case 'menuMain':
-								area.mainStart.btn1 && (this.menu.scene = 'newGameMain');
+								area.mainStart.btn1 && (this.menu.scene = 'playMain');
 								area.mainStart.btn1 && this.selectAudio();
+								area.mainStart.btn2 && (this.menu.scene = 'optionsMain');
+								area.mainStart.btn2 && this.selectAudio();
+								area.mainStart.btn3 && (this.menu.scene = 'creditsMain');
+								area.mainStart.btn3 && this.selectAudio();
 
 								break;
-							case 'newGameMain':
+							case 'playMain':
 								area.mainStart.arrowLeft && this.playerNumberForChoosePlayerLeft();
 								area.mainStart.arrowLeft && this.selectAudio();
 								area.mainStart.arrowRight && this.playerNumberForChoosePlayerRight();
@@ -246,6 +258,30 @@ export class MouseService {
 									audioSettings.start.play();
 									this.clickFlag = true;
 								}
+								break;
+							case 'optionsMain':
+								if (area.mainStart.btn1) {
+									if (localStorage.getItem('musicOff')) {
+										localStorage.removeItem('musicOff');
+										this.selectAudio();
+									} else {
+										localStorage.setItem('musicOff', true);
+									}
+								}
+								if (area.mainStart.btn2) {
+									if (localStorage.getItem('sfxOff')) {
+										localStorage.removeItem('sfxOff');
+										this.selectAudio();
+									} else {
+										localStorage.setItem('sfxOff', true);
+									}
+								}
+								area.mainStart.btn3 && (this.menu.scene = 'menuMain');
+								area.mainStart.btn3 && this.selectAudio();
+								break;
+							case 'creditsMain':
+								area.mainStart.btn3 && (this.menu.scene = 'menuMain');
+								area.mainStart.btn3 && this.selectAudio();
 								break;
 						}
 						break;

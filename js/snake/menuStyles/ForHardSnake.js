@@ -8,7 +8,9 @@ export class ForHardSnake {
 	constructor(menu, ctx) {
 		this.menu = menu;
 		this.ctx = ctx;
-		this.menuHoverStyle = new MenuHoverStyle(this, { color: 'rgba(71, 200, 85, 0.8)' });
+		this.menuHoverStyle = new MenuHoverStyle(this, this.menu.snake.game.menuSceneEl, {
+			color: 'rgba(71, 200, 85, 0.8)',
+		});
 		this.textBasicSetup = new TextBasicSetup(this.menu.snake.game);
 		this.draw(this.ctx);
 	}

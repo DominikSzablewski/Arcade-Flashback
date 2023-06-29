@@ -1,6 +1,6 @@
 import { audioSettings, musicSwitcher } from './main/audio.js';
 import { Background, Foreground } from './main/Background.js';
-import { ForNewGameMain } from './main/menuStyles/ForNewGameMain.js';
+import { ForPlayMain } from './main/menuStyles/ForPlayMain.js';
 import { TilesForCollision } from './main/TileForCollision.js';
 import { SnakeGame } from './snake/SnakeGame.js';
 import { SceneSwitcher } from './main/sceneSwitcher.js';
@@ -42,7 +42,7 @@ class Game {
 		this.menu = new Menu(this);
 		this.backToMenuMain = new BackToMenuMain(this);
 		this.gloryBoard = new GloryBoard(this);
-		this.player = new ForNewGameMain(this.menu, ctx);
+		this.player = new ForPlayMain(this.menu, ctx);
 		this.npc = new Npc(this, {
 			firstSpriteFrameX: 0,
 			frameX: 1,
@@ -84,6 +84,7 @@ class Game {
 			this.npc.npcInit(ctx, timeStamp);
 			this.gloryBoard.draw(ctx);
 			this.gameSetup.lastTime = timeStamp;
+			console.log(this.menuSceneEl);
 		}
 	}
 }
