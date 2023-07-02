@@ -37,11 +37,20 @@ export class ForCreditsMain {
 			setup: { nr: 'text5', x: -298, y: 40 },
 			text: ['GitHub page and refer to the README file at:'],
 		});
-		this.textBasicSetup.text({
-			setup: { nr: 'text6', x: -325, y: 100 },
-			font: { size: '24px', color: '0, 239, 255, 1.0', shadowColor: '0, 0, 0, 1.0', shadowX: 1.5, shadowY: 1 },
-			text: ['https://github.com/DominikSzablewski/Arcade-Flashback'],
-		});
+		if (!(this.menuHoverStyle.menuSceneEl === 'creditsLink')) {
+			this.textBasicSetup.text({
+				setup: { nr: 'text6', x: -325, y: 100 },
+				font: { size: '24px', color: '0, 239, 255, 1.0', shadowColor: '0, 0, 0, 1.0', shadowX: 1.5, shadowY: 1 },
+				text: ['https://github.com/DominikSzablewski/Arcade-Flashback'],
+			});
+		} else {
+			this.textBasicSetup.text({
+				setup: { nr: 'text6', x: -325, y: 100 },
+				font: { size: '24px', color: '0, 200, 100, 1.0', shadowColor: '0, 0, 0, 1.0', shadowX: 1.5, shadowY: 1 },
+				text: ['https://github.com/DominikSzablewski/Arcade-Flashback'],
+			});
+		}
+
 		this.btn3 = new CreateButton(this, {
 			offset: { x: 0, y: 198 },
 			word: ['Back'],

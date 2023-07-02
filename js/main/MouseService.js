@@ -36,6 +36,7 @@ export class MouseService {
 				btn3: y > 603 && y < 694 && x > 810 && x < 1087,
 				arrowLeft: y > 413 && y < 486 && x > 722 && x < 813,
 				arrowRight: y > 413 && y < 486 && x > 1082 && x < 1173,
+				creditsLink: y > 526 && y < 557 && x > 622 && x < 1275,
 			},
 			snake: {
 				btn1: y > 405 && y < 468 && x > 844 && x < 1056,
@@ -89,6 +90,7 @@ export class MouseService {
 							area.mainStart.btn3 && (detectEl = 'btn3');
 							break;
 						case 'creditsMain':
+							area.mainStart.creditsLink && (detectEl = 'creditsLink');
 							area.mainStart.btn3 && (detectEl = 'btn3');
 							break;
 					}
@@ -282,6 +284,11 @@ export class MouseService {
 								area.mainStart.btn3 && this.selectAudio();
 								break;
 							case 'creditsMain':
+								if (area.mainStart.creditsLink) {
+									window.open('https://github.com/DominikSzablewski/Arcade-Flashback');
+									this.menu.sceneElement = false;
+									this.selectAudio();
+								}
 								area.mainStart.btn3 && (this.menu.scene = 'menuMain');
 								area.mainStart.btn3 && this.selectAudio();
 								break;
