@@ -16,36 +16,32 @@ export class ForCreditsMain {
 	styles() {
 		this.background = new MenuBackgroundMain();
 		this.mainArea = new MainArea(this);
-		this.header = new Header(this, { words: ['Menu'], x: -85 });
+		this.header = new Header(this, { words: ['Credits'], x: -122 });
 		this.textBasicSetup.text({
 			setup: { nr: 'text1', x: -310, y: -120 },
-			text: ['The code is created solely by myself, while the '],
+			text: ['The code is created solely by myself, while the'],
 		});
 		this.textBasicSetup.text({
 			setup: { nr: 'text2', x: -285, y: -80 },
-			text: ['images and sounds used in this project are '],
+			text: ['images and sounds used in this project are'],
 		});
 		this.textBasicSetup.text({
 			setup: { nr: 'text3', x: -292, y: -40 },
-			text: ['sourced from free platforms, to which I will '],
+			text: ['sourced from free platforms. To familiarize'],
 		});
 		this.textBasicSetup.text({
-			setup: { nr: 'text4', x: -287, y: 0 },
-			text: ['provide proper attribution according to the '],
+			setup: { nr: 'text4', x: -275, y: 0 },
+			text: ['yourself with the credits, please visit my'],
 		});
 		this.textBasicSetup.text({
-			setup: { nr: 'text5', x: -309, y: 40 },
-			text: ['respective licenses. Credits acknowledging the '],
+			setup: { nr: 'text5', x: -298, y: 40 },
+			text: ['GitHub page and refer to the README file at:'],
 		});
 		this.textBasicSetup.text({
-			setup: { nr: 'text6', x: -301, y: 80 },
-			text: ['authors of these resources will be updated in '],
+			setup: { nr: 'text6', x: -325, y: 100 },
+			font: { size: '24px', color: '0, 239, 255, 1.0', shadowColor: '0, 0, 0, 1.0', shadowX: 1.5, shadowY: 1 },
+			text: ['https://github.com/DominikSzablewski/Arcade-Flashback'],
 		});
-		this.textBasicSetup.text({
-			setup: { nr: 'text7', x: -240, y: 120 },
-			text: ['the README of this game on GitHub.'],
-		});
-
 		this.btn3 = new CreateButton(this, {
 			offset: { x: 0, y: 198 },
 			word: ['Back'],
@@ -64,7 +60,6 @@ export class ForCreditsMain {
 		this.textBasicSetup.text4.draw(ctx);
 		this.textBasicSetup.text5.draw(ctx);
 		this.textBasicSetup.text6.draw(ctx);
-		this.textBasicSetup.text7.draw(ctx);
 		this.btn3.draw(ctx);
 		this.menuHoverStyle.draw(ctx, {
 			btn3: { x: 5, flag: true },

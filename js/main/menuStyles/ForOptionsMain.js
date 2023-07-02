@@ -16,8 +16,7 @@ export class ForOptionsMain {
 	styles() {
 		this.background = new MenuBackgroundMain();
 		this.mainArea = new MainArea(this);
-		this.header = new Header(this, { words: ['Menu'], x: -85 });
-
+		this.header = new Header(this, { words: ['Options'], x: -128 });
 		if (this.musicOff) {
 			this.btn1 = new CreateButton(this, {
 				offset: { x: 0, y: -58 },
@@ -44,7 +43,6 @@ export class ForOptionsMain {
 				textOffset: { x: -72, y: 84 },
 			});
 		}
-
 		this.btn3 = new CreateButton(this, {
 			offset: { x: 0, y: 198 },
 			word: ['Back'],
