@@ -189,6 +189,8 @@ Used: [Dependency Cruiser Extension](https://marketplace.visualstudio.com/items?
 
 - https://www.cleanpng.com/png-mother-3-video-game-dialog-box-text-box-dialogue-t-803527/
 
+- https://www.rpgmaker.pl/?co=download&typ=rpgmv&id=rpgmv-characters
+
 **For Snake Arcade:**
 
 - https://www.pngegg.com/en/png-iuihe
