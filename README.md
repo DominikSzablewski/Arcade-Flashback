@@ -131,7 +131,7 @@ Used: [Dependency Cruiser Extension](https://marketplace.visualstudio.com/items?
   <br>
   <img src="https://img001.prntscr.com/file/img001/HOHaBHoRQOSYjq0U8XQoiw.png">
   <br>
-  <img src="https://img001.prntscr.com/file/img001/S2zokOICT_Ce_83_r5uahw.png">
+  <img src="https://img001.prntscr.com/file/img001/RKIdbTycSEGzAdZCHByUNg.png">
   <br>
   <img src="https://img001.prntscr.com/file/img001/RvQ04lKMQheOGgt0slv01g.png">
   <br>
